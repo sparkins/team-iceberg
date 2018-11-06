@@ -1,7 +1,7 @@
 
 
- // Initialize Firebase
- var config = {
+// Initialize Firebase
+var config = {
   apiKey: "AIzaSyAPBjfbWjYgZsJ00tgPQPkRmjNpy6I3qpQ",
   authDomain: "team-iceberg.firebaseapp.com",
   databaseURL: "https://team-iceberg.firebaseio.com",
@@ -15,11 +15,11 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var temp = 0;
 var tempPic = ("sun");  //pics available for Sun, rain, cloud, snow
-
+var cityPic = "SF";
 
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
-  { userName: "Alyssa", score: 1234, game: 1},
+  { userName: "Alyssa", score: 1234, game: 1 },
   { userName: "Eric", score: 2345, game: 1 },
   { userName: "Simon", score: 1212, game: 1 },
   { userName: "Alyssa", score: 7234, game: 1 },
@@ -36,10 +36,20 @@ var players = [
 // var newScore = { userName: "Manny", score: 2121 };
 // players.push(newScore);
 
-savePlayerScore (players);
+$("#city-select").change(function () {
+  cityPic = $("#city-select").val();
+  console.log("City Name: " + cityPic);
+
+  $("#cityName").html(cityPic);
+  $("body").css("background", "url('" + cityPic + ".png') center no-repeat");
+
+  getWeather(cityPic);
+
+});
+
+savePlayerScore(players);
 retrieveAllTimeHighScores();
 retrievePersonalHighScores("Alyssa");
-getWeather ("London");
 
 
 function savePlayerScore(playerObject) {
@@ -50,55 +60,64 @@ function savePlayerScore(playerObject) {
 
 function retrieveAllTimeHighScores(gameIndex) {
   var highestScores = firebase.database().ref('players');
-  highestScores.orderByChild("score").limitToLast(5).on('value', function (data) {
-    console.log(data.val());
-    return highestScores;
+  highestScores.orderByChild("userName").once('value', function (data) {
+    data.forEach(function (element) {
+      console.log(element.val());
+    });
   });
 }
 
 function retrievePersonalHighScores(userName) {
   var personalTopScores = firebase.database().ref('players');
-  personalTopScores.orderByChild("userName").equalTo(userName).limitToFirst(3).on('value', function (data) {
-    console.log(data.val());
-    return personalTopScores;
+  personalTopScores.orderByChild("userName").equalTo(userName).once('value', function (data) {
+    data.forEach(function (element) {
+      console.log(element.val());
   });
+});
 }
 
 function getWeather(cityPic) {
-    //var cityPic = "San Francisco"
-    // queryURL ="api.openweathermap.org/data/2.5/weather?q=London,uk";
-    // queryURL = "https://api.openweathermap.org/data/2.5/forecast?id=524901&APPID=cd1c1bbe24ef0b92a983789f75cca3d7";
-    queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityPic + "&APPID=cd1c1bbe24ef0b92a983789f75cca3d7";
+  //var cityPic = "San Francisco"
 
-    console.log("display-topic: " + queryURL);
+  queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityPic + "&APPID=cd1c1bbe24ef0b92a983789f75cca3d7";
 
-    // AJAX GET call for the specific topic buttons being clicked
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (response) {
+  console.log("display-topic: " + queryURL);
 
-        console.log(response);
+  // AJAX GET call for the specific topic buttons being clicked
+  $.ajax({
+    url: queryURL,
+    method: "GET"
+  }).then(function (response) {
 
-        var temperature = response.main.temp;
-        temp = parseInt((temperature - 273.15) / (5 / 9) + 32);
-        var cityName = response.name;
-        var weather = response.weather[0].main;
-        
-        console.log(cityName);
-        console.log(temp);
-        console.log(weather);
+    console.log(response);
 
-        function chooseTempPic (weather) {
-            if (weather = cloud) {
-                tempPic = cloud;
-                return tempPic;
-            }
-            else if (weather = sun) {
-                tempPic = sun;
-                return tempPic;
-            }
-        }
-    });
+    var temperature = response.main.temp;
+    temp = parseInt((temperature - 273.15) / (5 / 9) + 32);
+    var cityName = response.name;
+    var weather = response.weather[0].main;
+
+    console.log(cityName);
+    console.log(temp);
+    console.log(weather);
+
+    $("#temp").text(temp);
+
+    chooseTempPic(weather);
+
+    function chooseTempPic(weather) {
+      if (weather === "Cloud" || weather === "Haze") {
+        tempPic = "cloud.png";
+      }
+      else if (weather === "Clear" && temp > 60) {
+        tempPic = "sun.png";
+      }
+      else if (weather === "Rain" || weather === "Mist") {
+        tempPic = "rain.png";
+      }
+
+      console.log("tempPic: " + tempPic);
+      $("#tempPic").html("<img src='" + tempPic + "' width='280px' height='210px'>");
+    }
+  });
 }
 
