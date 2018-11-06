@@ -66,23 +66,29 @@
     }
 
     function retrieveAllTimeHighScores(gameIndex) {
-      var highestScores = firebase.database().ref('players');
-      highestScores.orderByChild("score").limitToLast(5).on('value', function (data) {
+
+      var highestScores = firebase.database().ref("players");
+      highestScores.orderByChild("score").limitToLast(5).once("value", function (data) {
+        data.forEach(function (element) {
+          console.log(element.val());
+        });
         console.log(data.val());
-        return highestScores;
       });
+
     }
 
     function retrievePersonalHighScores(userName) {
-      var personalTopScores = firebase.database().ref('players');
-      personalTopScores.orderByChild("userName").equalTo(userName).limitToFirst(3).on('value', function (data) {
+      var personalTopScores = firebase.database().ref('players')
+      personalTopScores.orderByChild("userName").equalTo(userName).once('value', function (data) {
+        data.forEach(function (element) {
+          console.log(element.val());
+        });
         console.log(data.val());
-        return personalTopScores;
       });
     }
 
-    savePlayerScore (players);
-    retrieveAllTimeHighScores();
+    savePlayerScore(players);
+    retrieveAllTimeHighScores(0);
     retrievePersonalHighScores("Alyssa");
 
 
