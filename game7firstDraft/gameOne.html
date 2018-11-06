@@ -138,14 +138,36 @@
             visibility: hidden;
                 };
 
-         /* #restartGame:hover {
-             background-color: rgb(18, 95, 18);
-             color: lime;
-             border-color: lime;
-             opacity: 20%;
+         #name {
              font-family: "orbitron", sans-serif;
-         }     */
+             color: rgb(30, 9, 54);
+             width: 100px;
+             margin-top: 10px;
+             /* display: none; */
+         }
+         #userName {
+             background-color: rgb(193, 248, 193);
+             color: blue;
+             font-family: "orbitron", sans-serif;
+             width: 380px;
+             margin-top: 10px;
+             border: rgb(30, 9, 54) 2px inset;
+             /* display: none; */
+         }
+         #nameValue {
+             background-color: blueviolet;
+             border: rgb(161, 240, 161) 1px ridge;
+             color: rgb(161, 240, 161);
+             width: 50px;
+             margin-top: 10px;
+            /* display: none; */
+         }
+    #submitUserName {
+        width: 500px;
+        /* visibility: hidden; */
+        display: none;
 
+    }
 
     </style>
 </head>
@@ -164,12 +186,16 @@
         <div id="playerLoss">Game Over</div>
         <div id="finalscore"></div>
         <div id="finalkills"></div>
+        
     </div>
 
 
 
     <button id="start" onclick="doStuff()">Play!</button>
     <button id="restartGame" onclick="restartGame();"><img height="15px" width="15px" src="refresh.png" alt="Do-Over"></button>
+    <div id="submitUserName"><label id="name">Name: <input type="text" id="userName"></label>
+            <input type="button" id="nameValue" value="OK"></div>
+
 
 
     
@@ -330,12 +356,15 @@
 
         function playerLoss() {
             var element = document.getElementById(player.element);
-            element.style.visibility = "hidden";
+            element.style.visibility = "hidden"; 
+            // NEED TO REMOVE PLAYER RATHER THAN JUST HIDING HIM, BECAUSE IT CAUSES CONTINUOUS PLAYERLOSS() TO BE CALLED...
             element = document.getElementById("playerLoss");
             element.style.visibility = "visible";
-
+            var element = document.getElementById("submitUserName");
+            element.style.visibility = "visible";
             // practice...need code to prevent player from shooting/scoring after death
             document.getElementById("finalscore").innerHTML = "SCORE: " + score;
+            saveScore = score;
             document.getElementById("finalkills").innerHTML = "Kills: " + kills;
             var element = document.getElementById("endscreen");
             element.style.visibility = "visible";
@@ -345,8 +374,16 @@
             element.style.visibility = "visible";
             var element = document.getElementById("restartGame");
             element.style.visibility = "visible";
-            var element = document.getElementById(enemies[i].element);
-            element.style.visibility = "hidden";
+            // var element = document.getElementById(enemies.element);
+            // element.style.visibility = "hidden";
+            var userName = document.getElementById("submitUserName");
+            console.log(userName);
+            // var userName2 = document.getElementById("userName");
+            // var userName3 = document.getElementById("nameValue");
+            userName.style.display = "block";
+            // userName2.style.visibility = "visible";
+            // userName3.style.visibility = "visible";
+
 
         };
 
@@ -446,6 +483,29 @@
 
 
         }
+
+
+(function() {
+  // Use an input to show the current value and let
+  // the user set a new one
+
+  var input = document.getElementById("userName");
+
+  // Reading the value, which was store as "theValue"
+  if (localStorage && 'userName' in localStorage) {
+    input.value = localStorage.userName;
+  }
+
+  document.getElementById("nameValue").onclick = function () {
+    // Writing the value
+    localStorage && (localStorage.userName = input.value);
+    console.log(input.value + ", " + saveScore + " Game0");
+    // STILL NEED CODE TO SAVE THE SCORE WITH THE NAME
+  };
+})();
+
+
+
 // <!-- 
 // document.getElementById("restartGame").on("click", function(){ -->
      function restartGame() {
