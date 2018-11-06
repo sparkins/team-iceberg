@@ -61,7 +61,7 @@ canvas {
 </style>
 </head>
 <body>
-        <div id="gameover">GAME OVER<button id="restart" visibility="hidden" onclick="playAgain();">Play Again<img height="15px" width="15px" src="refresh.png" alt="Do-Over"></button></div><div id="finalscore"></div>
+        <div id="gameover">GAME OVER<br><button id="restart" visibility="hidden" onclick="playAgain();">Play Again? <img height="15px" width="15px" src="refresh.png" alt="Do-Over"></button></div><div id="finalscore"></div>
  
     <button id="startbtn" onclick="startGame()">New Game</button>
 <script>
@@ -126,6 +126,7 @@ function component(width, height, color, x, y, type) {
         this.x += this.speedX;
         this.y += this.speedY + this.gravitySpeed;
         this.hitBottom();
+        this.hitTop();
     }
     this.hitBottom = function() {
         var rockbottom = playArea.canvas.height - this.height;
@@ -134,14 +135,15 @@ function component(width, height, color, x, y, type) {
             this.gravitySpeed = 0;
         }
     }
-    // this.hitTop = function() {
-    //     var toprock = playArea.canvas.height;
-    //     if (this.y < toprock){
-    //         this.y = accelerate(0);
-            
+this.hitTop = function() {
+    var rocktop = 0;
+    if (this.y < rocktop) {
+        this.y = rocktop;
+        this.accelerate = 0;
+    }
+}
 
-    //     }
-    // }
+
 
 
     this.playerCrash = function(otherobj) {
@@ -206,19 +208,6 @@ function everyinterval(n) {
 }
 
 function accelerate(n) {
-    // if(player.y > playArea.y){
-    //     player.y = playArea.y;
-    // }
-    // if(player.y < 270){
-    //     player.y = 270;
-    // }
-    // if(player.y > 265){
-    //     player.y = 265;
-    // }
-    // if(player.y < 3){
-    //     player.y = 3;
-    //     onmousedown="accelerate(0)";
-    // }
     player.gravity = n;
 }
 
@@ -229,7 +218,7 @@ function playAgain(){
 
 <br>
 <button onmousedown="accelerate(-0.3)" onmouseup="accelerate(0.3)" id="hoverbtn">HOVER</button>
-<div id="instructions">Use the button to hover in the air and avoid all obstacles.</div>
+<div id="instructions">Use the button to hover in the air and avoid obstacles.</div>
 
 
 </body>
