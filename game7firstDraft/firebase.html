@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="UTF-8">
+  <title>Click Button with Firebase!</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+  <!-- JQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- ================================================================================== -->
+
+  <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+
+
+</head>
+
+<body>
+
+  <script>
+
+    // Initialize Firebase  -->
+    var config = {
+      apiKey: "AIzaSyAPBjfbWjYgZsJ00tgPQPkRmjNpy6I3qpQ",
+      authDomain: "team-iceberg.firebaseapp.com",
+      databaseURL: "https://team-iceberg.firebaseio.com",
+      projectId: "team-iceberg",
+      storageBucket: "team-iceberg.appspot.com",
+      messagingSenderId: "997146402050"
+    };
+    firebase.initializeApp(config);
+
+    var players = [
+      { userName: "Alyssa", score: 1234 },
+      { userName: "Eric", score: 2345 },
+      { userName: "Simon", score: 1212 },
+      { userName: "Alyssa", score: 7234 },
+      { userName: "Eric", score: 5345 },
+      { userName: "Simon", score: 6212 },
+      { userName: "Alyssa", score: 5234 },
+      { userName: "Eric", score: 4345 },
+      { userName: "Simon", score: 3122 }
+    ]
+
+    // console.log(players[1].userName);
+    // console.log(players[1].score);
+
+    // var newScore = { userName: "Manny", score: 2121 };
+
+    // players.push(newScore);
+
+    var database = firebase.database();
+
+    function savePlayerScore(playerObject) {
+      database.ref().set({
+        players: playerObject
+      });
+    }
+
+    function retrieveAllTimeHighScores(gameIndex) {
+      var highestScores = firebase.database().ref('players');
+      highestScores.orderByChild("score").limitToLast(5).on('value', function (data) {
+        console.log(data.val());
+        return highestScores;
+      });
+    }
+
+    function retrievePersonalHighScores(userName) {
+      var personalTopScores = firebase.database().ref('players');
+      personalTopScores.orderByChild("userName").equalTo(userName).limitToFirst(3).on('value', function (data) {
+        console.log(data.val());
+        return personalTopScores;
+      });
+    }
+
+    savePlayerScore (players);
+    retrieveAllTimeHighScores();
+    retrievePersonalHighScores("Alyssa");
+
+
+  </script>
+
+</body>
+
+</html>
