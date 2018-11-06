@@ -145,6 +145,30 @@
              opacity: 20%;
              font-family: "orbitron", sans-serif;
          }     */
+    #submitUserName {
+        width: 500px;
+
+    }
+         #name {
+             font-family: "orbitron", sans-serif;
+             color: blue;
+             width: 100px;
+             margin-top: 10px;
+         }
+         #userName {
+             background-color: rgb(193, 248, 193);
+             color: blue;
+             font-family: "orbitron", sans-serif;
+             width: 400px;
+             margin-top: 10px;
+         }
+         #nameValue {
+             background-color: blueviolet;
+             border: rgb(161, 240, 161) 1px ridge;
+             color: rgb(161, 240, 161);
+             width: 50px;
+             margin-top: 10px;
+         }
 
 
     </style>
@@ -164,12 +188,16 @@
         <div id="playerLoss">Game Over</div>
         <div id="finalscore"></div>
         <div id="finalkills"></div>
+        
     </div>
 
 
 
     <button id="start" onclick="doStuff()">Play!</button>
     <button id="restartGame" onclick="restartGame();"><img height="15px" width="15px" src="refresh.png" alt="Do-Over"></button>
+    <div id="submitUserName"><label id="name">Name: <input type="text" id="userName"></label>
+            <input type="button" id="nameValue" value="OK"></div>
+
 
 
     
@@ -333,9 +361,11 @@
             element.style.visibility = "hidden";
             element = document.getElementById("playerLoss");
             element.style.visibility = "visible";
-
+            var element = document.getElementById("submitUserName");
+            element.style.visibility = "visible";
             // practice...need code to prevent player from shooting/scoring after death
             document.getElementById("finalscore").innerHTML = "SCORE: " + score;
+            saveScore = score;
             document.getElementById("finalkills").innerHTML = "Kills: " + kills;
             var element = document.getElementById("endscreen");
             element.style.visibility = "visible";
@@ -345,8 +375,9 @@
             element.style.visibility = "visible";
             var element = document.getElementById("restartGame");
             element.style.visibility = "visible";
-            var element = document.getElementById(enemies[i].element);
+            var element = document.getElementById(enemies.element);
             element.style.visibility = "hidden";
+
 
         };
 
@@ -446,6 +477,29 @@
 
 
         }
+
+
+(function() {
+  // Use an input to show the current value and let
+  // the user set a new one
+
+  var input = document.getElementById("userName");
+
+  // Reading the value, which was store as "theValue"
+  if (localStorage && 'userName' in localStorage) {
+    input.value = localStorage.userName;
+  }
+
+  document.getElementById("nameValue").onclick = function () {
+    // Writing the value
+    localStorage && (localStorage.userName = input.value);
+    console.log(input.value + saveScore);
+    // STILL NEED CODE TO SAVE THE SCORE WITH THE NAME
+  };
+})();
+
+
+
 // <!-- 
 // document.getElementById("restartGame").on("click", function(){ -->
      function restartGame() {
