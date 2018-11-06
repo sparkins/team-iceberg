@@ -1,371 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>    
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Weather Warrior</title>
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" src="shootstyle.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Cinzel|Orbitron|Permanent+Marker|Yeon+Sung" rel="stylesheet">
-  
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
 
-
-    <style>
-        #player {
-            width: 60px;
-            height: 60px;
-            position: absolute;
-        }
-
-        #background {
-            background: url("spacegif.gif");
-            width: 500px;
-            height: 500px;
-            position: absolute;
-            left: 0px;
-            top: 0px;
-        }
-
-        .laser {
-            /* background: rgb(180, 180, 236); */
-            background: yellow;
-            width: 2px;
-            height: 30px;
-            position: absolute;
-        }
-
-        .enemy {
-            background: url("enemyShip50x44down.png");
-            width: 50px;
-            height: 44px;
-            position: absolute;
-        }
-
-        #score {
-            color: yellow;
-            font-size: 14pt;
-            font-family: "orbitron", sans-serif;
-            position: absolute;
-            left: 20px;
-            top: 20px;
-            visibility: visible;
-        }
-        #kills {
-            color: rgb(170, 170, 233);
-            font-size: 14pt;
-            font-family: "orbitron", sans-serif;
-            position: absolute;
-            left: 20px;
-            top: 40px;
-            visibility: visible;
-        }
-
-        #playerLoss {
-            color: yellow;
-            font-size: 70px;
-            font-family: "orbitron", sans-serif, bold;
-            position: absolute;
-            left: 35px;
-            top: 200px;
-            visibility: hidden;
-        }
-
-        #endscreen {
-            left: 0;
-            top: 0;
-            visibility: hidden;
-            position: absolute;
-        }
-
-        #finalscore {
-            color: rgb(223, 223, 102);
-            top: 300px;
-            left: 270px;
-            text-align: right;
-            visibility: hidden;
-            position: absolute;
-            font-family: "orbitron", sans-serif;
-            font-size: 20px;
-            line-height: 30%;
-        }
-        #finalkills {
-            font-family: "yeon sung";
-            color: rgb(239, 239, 255);
-            font-size: 30px;
-            left: 270px;
-            /* text-align: right; */
-            top: 320px;
-            visibility: hidden;
-            position: absolute;
-
-        }
-    </style>
 </head>
 
+
+<style>
+    * {
+        box-sizing: border-box;
+  
+    }
+    body{
+        background: rgb(9, 59, 9);
+    }
+    /* body {
+        background: url("sf.png") center no-repeat;
+    } */
+/* <!-- topCol2 is the header area --> */
+    #topCol2 {
+        width: 60%;
+        height: 80px;
+        float: left;
+        text-align: center;
+        color: lime;
+        background: url("transGrey.png");
+        /* fill-opacity: 30%; */
+        border-top: rgb(162, 237, 247) ridge;
+        border-bottom: rgb(162, 237, 247) ridge;
+    }
+
+    #topCol1,
+    #topCol3 {
+        width: 20%;
+        height: 80px;
+        float: left;
+        text-align: center;
+        color: rgb(97, 182, 97);
+        background: url("transGrey.png");
+        border-top: rgb(162, 237, 247) ridge;
+        border-bottom: rgb(162, 237, 247) ridge;
+        font-family: "yeon sung", sans-serif;
+    }
+    #topCol1{
+        border-left: rgb(162, 237, 247) ridge;
+    }
+    #topCol3 {
+        border-right: rgb(162, 237, 247) ridge;
+    }
+/* <!-- colOne is where we display options such as location and game --> */
+    #colOne {
+        width: 20%;
+        float: left;
+        color: white;
+        background: url("transGrey.png");
+        border-color: rgb(162, 237, 247);
+        border-style: ridge;
+        height: 580px;
+        margin-right: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+/* <!-- colTwo is where the game will be displayed --> */
+    #colTwo { 
+        width: 574.8px;
+        float: left;
+        background: rgb(35, 94, 102);
+        border-color: rgb(162, 237, 247);
+        border-style: ridge;
+        height: 534.8px;
+        margin-top: 20px;
+    }
+/* <!-- colThree is where the scores are displayed --> */
+    #colThree {
+        width: 20%;
+        float: left;
+        color: white;
+        border-color: rgb(162, 237, 247);
+        background: url("transGrey.png");
+        border-style: ridge;
+        height: 580px;
+        margin-left: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #colFour {
+        float: left;
+        width: 20%;
+        background: url("transGrey.png");
+        color: white;
+        border-left: rgb(162, 237, 247) ridge;
+        border-top: rgb(162, 237, 247) ridge;
+        /* border-bottom: rgb(162, 237, 247) ridge; */
+        height: 40px;
+        background: url("transGrey.png");
+    }
+
+    #foot {
+        width: 60%;
+        float: left;
+        text-align: center;
+        color: lime;
+        background: url("transGrey.png");
+        border-top: rgb(162, 237, 247) ridge;
+        /* border-bottom: rgb(162, 237, 247) ridge; */
+        height: 40px;
+    }
+
+
+    #colFive {
+        float: left;
+        width: 20%;
+        color: white;
+        border-right: rgb(162, 237, 247) ridge;
+        border-top: rgb(162, 237, 247) ridge;
+        /* border-bottom: rgb(162, 237, 247) ridge; */
+        height: 40px;
+        background: url("transGrey.png");
+      
+    }
+    #chooseGame {
+        /* margin-top: 100px; */
+        align-content: center;
+        /* width: 200px; */
+        height: 50px;
+        /* margin-left: 40px;
+        margin-right: 40px; */
+    }
+    #chooseCity {
+        margin-top: 200px;
+        align-content: center;
+        width: 200px;
+        /* height: 50px; */
+        /* margin-left: 40px;
+        margin-right: 40px; */
+    }
+    #go {
+        margin-top: 100px;
+        align-content: center;
+        width: 200px;
+        height: 50px;
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+
+    #allTimeScores {
+        background-color: rgb(204, 243, 206);
+        color: rgb(28, 83, 28);
+        /* font-size: 20px;
+        height: 300px;
+        margin-right: 20px;
+        margin-left: 20px; */
+    }
+    #personalScores {
+        background-color: rgb(204, 243, 206);
+        color: rgb(28, 83, 28);
+        /* font-size: 20px;
+        height: 150px;
+        margin-right: 20px;
+        margin-left: 20px; */
+}
+#list-group-item {
+    background-color: tan;
+    color: green;
+}
+#game1 {
+    height: 550px;
+    width: 550px;
+    margin: auto;
+    padding-top: 10px;
+
+}
+#game2 {
+    height: 480px;
+    width: 500px;
+    margin: auto;
+    padding-top: 10px;
+}
+
+h1 {
+    color: rgb(162, 237, 247);
+    font-family: orbitron;
+}
+
+#temp {
+    font-size: 40px;
+}
+
+#finalLeft, #finalMid, #finalRight {
+    width: 33.33%;
+        float: left;
+        text-align: center;
+        color: rgb(162, 237, 247);
+        background: url("transGrey.png");
+        border-bottom: rgb(162, 237, 247) ridge;
+        height: 40px;
+    }
+    #finalLeft{
+        border-left: rgb(162, 237, 247) ridge;
+    }
+    #finalRight{
+        border-right: rgb(162, 237, 247) ridge;
+    }
+
+
+
+
+
+</style>
+
 <body>
-    <div id="background"></div>
-    <img id="player" src="spaceship60.png">
-    <div class="laser" id="laser0"></div>
-    <div class="laser" id="laser1"></div>
-    <div class="laser" id="laser2"></div>
-    <div id="score"></div>
-    <div id="kills"></div>
-    <img id="endscreen" src="spacegifblue500.gif">
-    <div id="playerLoss">Game Over</div>
-    <div id="finalscore"></div>
-    <div id="finalkills"></div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col" id="topCol1">Current Date and<h3>[Time]</h3>
+            </div>
+            <div class="col" id="topCol2">
+                <h1>Nomadic Match</h1>
+            </div>
+            <div class="col" id="topCol3">Welcome To<h3 id="cityName"></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id="colOne"><br>
+
+
+                <form>
+
+                    <!-- The forms in colOne (where we ask the user which game and which city they want to play) should be the same style, 
+                        I left both models here because idk which one you guys think looks better. The 1st form is a dropdown menu and 
+                        the 2nd form is a list. If we use this layout, lets copy /paste the one you like 2x and delete the ither one -->
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Choose your game</label>
+                        <select class="form-control" id="game-select">
+                            <option id="gamePick">Pick A Game...</option>
+                            <option id="shoot">Game 1: Space Defender</option>
+                            <option id="helicopter">Game 2: Helicopter Game</option>
+                            <!-- <option id="unknown">Game 3: maybe..??</option> -->
+                        </select>
+                    </div>
+                    <!-- <button type="submit" class="btn btn-primary">Go</button> -->
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Choose your game</label>
+                        <select class="form-control" id="city-select">
+                            <option id="cityPick">Pick A City...</option>
+                            <option id="sf">SF</option>
+                            <option id="egypt">Cairo</option>
+                            <option id="london">London</option>
+                            <option id="abu-dhabi">Abu Dhabi</option>
+                        </select>
+                    </div>
+                    <!-- 
+
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect2">Choose a city</label>
+                        <select multiple class="form-control" id="exampleFormControlSelect2">
+                            <option>San Francisco</option>
+                            <option>Sydney, Australia</option>
+                            <option>Cairo, Egypt</option>
+                            <option>London</option>
+                            <option>Abudabi, Saudi Arabia</option>
+                            <option>more b.SsSss. examples</option>
+                        </select>
+                    </div> -->
+
+                    <!-- <button type="submit" class="btn btn-primary">Go</button> -->
+                </form>
+
+                <br>
+                <div id="temp">78°F</div>
+                <img id="tempPic" src="rain.png" width="280px" height="210px">
+                <!-- other tempPic images in folder: sun.png, cloud.png, ....and either "snow.png" or "snowman.png" for snow -->
+
+
+
+            </div>
+            <div class="col" id="colTwo">
+                <!-- Game code is embeded here -->
+                <!-- <embed id="game" src="gameOne.html"> -->
+
+
+            </div>
+            <div class="col" id="colThree">
+                <!-- <br>
+                <div id="allTimeScores">All Time Champions</div> -->
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id="allTimeScores">All
+                        Time Champions</li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Eric
+                        <span class="badge badge-primary badge-pill">14000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Simon
+                        <span class="badge badge-primary badge-pill">12000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Alyssa
+                        <span class="badge badge-primary badge-pill">10000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Simon
+                        <span class="badge badge-primary badge-pill">12000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Alyssa
+                        <span class="badge badge-primary badge-pill">10000</span>
+                    </li>
+                </ul>
+                <br>
+                <!-- Your personal best scores -->
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id="personalScores">My
+                        Top Scores</li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        8000
+                        <span class="badge badge-primary badge-pill"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        7200
+                        <span class="badge badge-primary badge-pill"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        7005
+                        <span class="badge badge-primary badge-pill"></span>
+                    </li>
+                </ul>
+
+
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id="colFour"></div>
+            <div class="col" id="foot">Created by...</div>
+            <div class="col" id="colFive"></div>
+        </div>
+        <div class="row">
+            <div class="col" id="finalLeft">Eric</div>
+            <div class="col" id="finalMid">Alyssa</div>
+            <div class="col" id="finalRight">Simon</div>
+        </div>
+
+
+
+    </div>
+
+
+
+
     <script>
 
-        var moveLeft = 37;
-        var moveUp = 38;
-        var moveRight = 39;
-        var moveDown = 40;
-        var spacebar = 32;
-        var userMovement = 3;
+        $("#city-select").change(function () {
+            var cityPic = $("#city-select").val();
+            console.log("limit= " + cityPic);
 
-        var lastLoopRun = 0;
-        var score = 0;
-        var kills = 0;
-        var iterations = 0;
+            $("#cityName").html(cityPic);
+            $("body").css("background", "url('"+cityPic+".png') center no-repeat");
 
-        var controller = new Object();
-        var enemies = new Array();
+            // pseudo code plan for API linked to weather and time of city
+            // uses function to determine if day or night and changes background to appropriate picture
 
+            // var apiAddress = "apibullshxxxx" + cityPic + "moreapibulllllsshhhh";
+            // var cityTime = apiAddress.response.time;
 
-        function createSprite(element, x, y, w, h) {
-            var result = new Object();
-            result.element = element;
-            result.x = x;
-            result.y = y;
-            result.w = w;
-            result.h = h;
-            return result;
-        };
+            // function checkTime(){
+            //     if(cityTime = "later than 6pm and earlier than 6am"){
+            //         $("#body").css("background", "url('" + cityPic + "_night.png')");
+            //     }
+            //     else {
+            //         $("#body").css("background", "url('" + cityPic + "_day.png')");
+            //     }
+            // };
 
-        function toggleKey(keyCode, isPressed) {
-            if (keyCode == moveLeft) {
-                controller.left = isPressed;
-            }
-            if (keyCode == moveRight) {
-                controller.right = isPressed;
-            }
-            if (keyCode == moveUp) {
-                controller.up = isPressed;
-            }
-            if (keyCode == moveDown) {
-                controller.down = isPressed;
-            }
-            if (keyCode == spacebar) {
-                controller.space = isPressed;
-            }
-        };
+// <!-- Some psuedo code for the weather API to link relevant weather icon in bottom left divOne, write weather in Farenheit,
 
-        function intersects(a, b) {
-            return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
-        };
+            // var cityData = "apikeybsss" + cityPic + "moreAPIinfoblahblahblah";
+            // console.log(cityData.response);
 
-        function checkPosition(sprite, ignoreY) {
-            if (sprite.x < 20) {
-                sprite.x = 20;
-            }
-            if (!ignoreY && sprite.y < 20) {
-                sprite.y = 20;
-            }
-            if (sprite.x + sprite.w > 480) {
-                sprite.x = 480 - sprite.w;
-            }
-            if (!ignoreY && sprite.y + sprite.h > 480) {
-                sprite.y = 480 - sprite.h;
-            }
-        };
+            // cityRain = cityData.response.[skies clear or not?];
 
+            // function findTemp(){
+            //     if(cityRain === ["it's raining" && "it's not snowing"]) {
+            //         tempID = "rain";
+            //     }
+            //     else if(cityRain === ["it's not raining" && "it's not snowing"]){
+            //         tempID = "sun";
+            //     }
+            //     else if(cityRain === ["it's snowing"]){
+            //         tempID = "snow";
+            //     }
+            //     return;
+            // }
 
-
-
-        function setPosition(sprite) {
-            var e = document.getElementById(sprite.element);
-            e.style.left = sprite.x + 'px';
-            e.style.top = sprite.y + 'px';
-        };
-
-
-        function handleControls() {
-            if (controller.up) {
-                player.y -= userMovement;
-            }
-            if (controller.down) {
-                player.y += userMovement;
-            }
-            if (controller.left) {
-                player.x -= userMovement;
-            }
-            if (controller.right) {
-                player.x += userMovement;
-            }
-            if (controller.space) {
-                var laser = getFireableLaser();
-                if (laser) {
-                    laser.x = player.x + 9;
-                    laser.y = player.y - laser.h;
-                }
-            }
-            checkPosition(player);
-        };
-
-        function getFireableLaser() {
-            var result = null;
-            for (var i = 0; i < gun.length; i++) {
-                if (gun[i].y <= -120) {
-                    result = gun[i];
-                }
-            }
-            return result;
-        };
-
-        function getIntersectingLaser(enemy) {
-            var result = null;
-            for (var i = 0; i < gun.length; i++) {
-                if (intersects(gun[i], enemy)) {
-                    result = gun[i];
-                    break;
-                }
-            }
-            return result;
-        };
-
-        function checkCollisions() {
-            for (var i = 0; i < enemies.length; i++) {
-                var laser = getIntersectingLaser(enemies[i]);
-                if (laser) {
-                    var element = document.getElementById(enemies[i].element);
-                    element.style.visibility = "hidden";
-                    element.parentNode.removeChild(element);
-                    enemies.splice(i, 1);
-                    i--;
-                    laser.y = -laser.h;
-                    score += 5500;
-                    kills += 1;
-                } else if (intersects(player, enemies[i])) {
-                    playerLoss();
-                } else if (enemies[i].y + enemies[i].h >= 500) {
-                    var element = document.getElementById(enemies[i].element);
-                    element.style.visibility = "hidden";
-                    element.parentNode.removeChild(element);
-                    enemies.splice(i, 1);
-                    i--;
-                }
-            }
-        };
-
-        function playerLoss() {
-            var element = document.getElementById(player.element);
-            element.style.visibility = "hidden";
-            element = document.getElementById("playerLoss");
-            element.style.visibility = "visible";
-
-            // practice...need code to prevent player from shooting/scoring after death
-            document.getElementById("finalscore").innerHTML = "SCORE: " + score;
-            document.getElementById("finalkills").innerHTML = "Kills: " + kills;
-            var element = document.getElementById("endscreen");
-            element.style.visibility = "visible";
-            var element = document.getElementById("finalscore");
-            element.style.visibility = "visible";
-            var element = document.getElementById("finalkills");
-            element.style.visibility = "visible";
-            var element = document.getElementById(enemies.element);
-            element.style.visibility = "hidden";
             
-        };
 
-        function showSprites() {
-            setPosition(player);
-            for (var i = 0; i < gun.length; i++) {
-                setPosition(gun[i]);
-            }
-            for (var i = 0; i < enemies.length; i++) {
-                setPosition(enemies[i]);
-            }
-            var scoreElement = document.getElementById("score");
-            scoreElement.innerHTML = "SCORE: " + score;
-            var killElement = document.getElementById("kills");
-            killElement.innerHTML = "ENEMIES KILLED: " + kills;
+            // direct to a specific image (such as SF_night_sun) with url('"+ cityName + "_" + dayLight + "_" + tempID + "');
+            // make sure to name the pics with exact city name how it is written in the database
+            // use day/night and rain/sun/snow as labels for pics after the city name....
+// <!-- 
+//             var temperature = document.getElementById("temp");
+//             temperature.css("background", "url('"+ tempID + "')"); -->
+            //this should link to sun.png, rain.png, or snow.png based on the chosen city's weather, and show the correct icon
+            // in the bottom left corner relative to the weather.
 
-        };
+        })
 
-        function updatePositions() {
-            for (var i = 0; i < enemies.length; i++) {
-                enemies[i].y += 4;
-                enemies[i].x += getRandom(7) - 3;
-                checkPosition(enemies[i], true);
+        $("#game-select").change(function () {
+            var gamePic = $("#game-select").val();
+            console.log("game= " + gamePic);
+            var gameChosen = [];
+            if (gamePic === ("Game 1: Space Defender")) {
+                $("#colTwo").html("<embed id='game1' src='gameOne.html'>");
             }
-            for (var i = 0; i < gun.length; i++) {
-                gun[i].y -= 12;
-            }
-        };
-
-        function addEnemy() {
-            var interval = 50;
-            if (iterations > 1500) {
-                interval = 5;
-            } else if (iterations > 1000) {
-                interval = 20;
-            } else if (iterations > 500) {
-                interval = 35;
+            else if (gamePic === ("Game 2: Helicopter Game")) {
+                $("#colTwo").html("<embed id='game2' src='gameTwo.html'>");
             }
 
-            if (getRandom(interval) == 0) {
-                var elementName = "enemy" + getRandom(10000000);
-                var enemy = createSprite(elementName, getRandom(450), -40, 35, 35);
 
-                var element = document.createElement("div");
-                element.id = enemy.element;
-                element.className = "enemy";
-                document.children[0].appendChild(element);
+        })
 
-                enemies[enemies.length] = enemy;
-            }
-        };
 
-        function getRandom(maxSize) {
-            return parseInt(Math.random() * maxSize);
-        };
-
-        function loop() {
-            if (new Date().getTime() - lastLoopRun > 40) {
-                updatePositions();
-                handleControls();
-                checkCollisions();
-
-                addEnemy();
-
-                showSprites();
-
-                lastLoopRun = new Date().getTime();
-                iterations++;
-            }
-            setTimeout("loop();", 2);
-        };
-
-        // stops player sprite from moving when user stops pressing down on key
-        document.onkeydown = function (evt) {
-            toggleKey(evt.keyCode, true);
-        };
-
-        document.onkeyup = function (evt) {
-            toggleKey(evt.keyCode, false);
-        };
-
-        var player = createSprite("player", 250, 460, 20, 20);
-        var gun = new Array();
-        for (var i = 0; i < 3; i++) {
-            gun[i] = createSprite("laser" + i, 0, -120, 2, 50);
-        };
-
-         
-
-        loop();
 
     </script>
+
 </body>
+
 
 </html>
