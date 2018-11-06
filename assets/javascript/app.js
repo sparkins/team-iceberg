@@ -19,19 +19,19 @@ var cityPic = "SF";
 
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
-  { userName: "Alyssa", score: 1234, game: 1 },
-  { userName: "Eric", score: 2345, game: 1 },
-  { userName: "Simon", score: 1212, game: 1 },
-  { userName: "Alyssa", score: 7234, game: 1 },
-  { userName: "Eric", score: 5345, game: 1 },
-  { userName: "Simon", score: 6212, game: 1 },
-  { userName: "Alyssa", score: 5234, game: 0 },
-  { userName: "Eric", score: 4345, game: 0 },
-  { userName: "Simon", score: 3122, game: 0 }
+  // { userName: "Manny", score: 4321, game: 0 }
+  // { userName: "Eric", score: 2345, game: 1 },
+  // { userName: "Simon", score: 1212, game: 1 },
+  // { userName: "Alyssa", score: 7234, game: 1 },
+  // { userName: "Eric", score: 5345, game: 1 },
+  // { userName: "Simon", score: 6212, game: 1 },
+  // { userName: "Alyssa", score: 5234, game: 0 },
+  // { userName: "Eric", score: 4345, game: 0 },
+  // { userName: "Simon", score: 3122, game: 0 }
 ]
 
-// console.log(players[1].userName);
-// console.log(players[1].score);
+console.log(players.userName);
+console.log(players.score);
 
 // var newScore = { userName: "Manny", score: 2121 };
 // players.push(newScore);
@@ -47,22 +47,36 @@ $("#city-select").change(function () {
 
 });
 
-savePlayerScore(players);
+addNewScore(players);
 retrieveAllTimeHighScores();
-retrievePersonalHighScores("Alyssa");
+retrievePersonalHighScores("Simon");
 
 
-function savePlayerScore(playerObject) {
-  database.ref().set({
-    players: playerObject
+function addNewScore(playerObject) {
+  var database = firebase.database().ref();
+  var playersRef = database.child('players');
+  var newPlayerScore = playersRef.push();
+  playerObject.forEach(function(element) {
+    newPlayerScore.set ({
+    userName: element.userName,
+    score: element.score,
+    game: element.game
+    });
+    console.log("Added score for "+element.userName);
   });
 }
 
 function retrieveAllTimeHighScores(gameIndex) {
+  // var i = 1;
   var highestScores = firebase.database().ref('players');
-  highestScores.orderByChild("userName").once('value', function (data) {
+  highestScores.orderByChild("score").once('value', function (data) {
     data.forEach(function (element) {
       console.log(element.val());
+      console.log(element.userName);
+      console.log(element.score);
+      // $("#score"+i+"-username").text(element.userName.val());
+      // $("#score"+i).text(element.score.val());
+      // i++
     });
   });
 }
