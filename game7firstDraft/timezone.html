@@ -32,7 +32,7 @@
         //var cityPic = "London";
 
         function getLocalTime(cityPic) {
-            queryURL = "https://okapi-retrieve-current-time-v1.p.mashape.com/datetime/lookup/time?timezone-addresslocality="+cityPic+"&access_token=8rlujbbG";
+            queryURL = "https://api.okapi.online/datetime/lookup/time?timezone.addressLocality=london&access_token=ngqrmaeNLzmwbFroz2aIWeeV";
             console.log("display-url: " + queryURL);
 
             // AJAX GET call for the specific topic buttons being clicked
@@ -42,13 +42,15 @@
             }).then(function (response) {
 
                 console.log(response);
+                console.log(response[0].hour);
 
-                var hour = response.hour;
-                var minute = response.minute;
-                var second = response.second;
-
-                console.log(hour+":"+minute+":"+second);                
-
+ 
+                var hour = response[0].hour;
+                var minute = response[0].minute;
+                var localTime = hour+":"+minute;
+                // var second = response[0].second;
+                // console.log(hour+":"+minute);   
+                
             });
         }
 

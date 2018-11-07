@@ -44,11 +44,11 @@ $("#city-select").change(function () {
   $("body").css("background", "url('" + cityPic + ".png') center no-repeat");
 
   getWeather(cityPic);
-
+  getLocalTime(cityPic);
 });
 
 addNewScore(players);
-retrieveAllTimeHighScores();
+retrieveAllTimeHighScores(0);
 retrievePersonalHighScores("Simon");
 
 
@@ -90,6 +90,36 @@ function retrievePersonalHighScores(userName) {
 });
 }
 
+function getLocalTime(cityPic) {
+  queryURL = "https://api.okapi.online/datetime/lookup/time?timezone.addressLocality="+cityPic+"&access_token=ngqrmaeNLzmwbFroz2aIWeeV";
+  console.log("display-url: " + queryURL);
+
+  // AJAX GET call for the specific topic buttons being clicked
+  $.ajax({
+      url: queryURL,
+      method: "GET"
+  }).then(function (response) {
+
+      console.log(response);
+      console.log(response[0].hour);
+
+      var month = response[0].month;
+      var year = response[0].year;
+      var day = response[0].day;
+      var hour = response[0].hour;
+      var minute = response[0].minute;
+      var localTime = hour+":"+minute;
+      var localDate = month+"/"+day+"/"+year;
+
+      console.log(localDate);
+      console.log(hour+":"+minute); 
+      
+      $("#localDate").html("Local Date: "+localDate);
+      $("#localTime").html("Local Time: "+localTime);
+      
+  });
+}
+
 function getWeather(cityPic) {
   //var cityPic = "San Francisco"
 
@@ -125,7 +155,7 @@ function getWeather(cityPic) {
       else if (weather === "Clear" && temp > 60) {
         tempPic = "sun.png";
       }
-      else if (weather === "Rain" || weather === "Mist") {
+      else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
         tempPic = "rain.png";
       }
 
