@@ -17,6 +17,9 @@ var temp = 0;
 var tempPic = ("sun");  //pics available for Sun, rain, cloud, snow
 var cityPic = "SF";
 
+var myGameZeroScores = [];
+var myGameOneScores = [];
+
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
   // { userName: "Manny", score: 4321, game: 0 }
@@ -30,8 +33,8 @@ var players = [
   // { userName: "Simon", score: 3122, game: 0 }
 ]
 
-console.log(players.userName);
-console.log(players.score);
+// console.log(players.userName);
+// console.log(players.score);
 
 // var newScore = { userName: "Manny", score: 2121 };
 // players.push(newScore);
@@ -41,82 +44,101 @@ $("#city-select").change(function () {
   console.log("City Name: " + cityPic);
 
   $("#cityName").html(cityPic);
-  $("body").css("background", "url('" + cityPic + ".png') center no-repeat");
+  $("body").css("background", "url('assets/images/" + cityPic + ".png') center no-repeat");
 
   getWeather(cityPic);
   getLocalTime(cityPic);
 });
 
+$("#game-select").change(function () {
+  var gamePic = $("#game-select").val();
+  console.log("game= " + gamePic);
+  var gameChosen = [];
+  if (gamePic === ("Game 1: Space Defender")) {
+    $("#colTwo").html("<embed id='game1' src='gameOne.html'>");
+  }
+  else if (gamePic === ("Game 2: Helicopter Game")) {
+    $("#colTwo").html("<embed id='game2' src='gameTwo.html'>");
+  }
+})
+
 addNewScore(players);
 retrieveAllTimeHighScores(0);
-retrievePersonalHighScores("Simon");
+retrievePersonalHighScores("Simon", 0);
 
 
 function addNewScore(playerObject) {
   var database = firebase.database().ref();
   var playersRef = database.child('players');
   var newPlayerScore = playersRef.push();
-  playerObject.forEach(function(element) {
-    newPlayerScore.set ({
-    userName: element.userName,
-    score: element.score,
-    game: element.game
+  playerObject.forEach(function (element) {
+    newPlayerScore.set({
+      userName: element.userName,
+      score: element.score,
+      game: element.game
     });
-    console.log("Added score for "+element.userName);
+    console.log("Added score for " + element.userName);
   });
 }
 
 function retrieveAllTimeHighScores(gameIndex) {
-  // var i = 1;
   var highestScores = firebase.database().ref('players');
-  highestScores.orderByChild("score").once('value', function (data) {
+  highestScores.orderByChild("score").limitToLast(5).once('value', function (data) {
     data.forEach(function (element) {
       console.log(element.val());
-      console.log(element.userName);
-      console.log(element.score);
-      // $("#score"+i+"-username").text(element.userName.val());
-      // $("#score"+i).text(element.score.val());
-      // i++
+      console.log(element.val().game);
+      var game = element.val().game;
+      var game = element.val().userName;
+      var game = element.val().score;
+      
     });
   });
 }
 
-function retrievePersonalHighScores(userName) {
+function retrievePersonalHighScores(userName, gameIndex) {
+  // var gameId = firebase.database().ref('players').orderByChild("game").equalTo(gameIndex);
   var personalTopScores = firebase.database().ref('players');
   personalTopScores.orderByChild("userName").equalTo(userName).once('value', function (data) {
-    data.forEach(function (element) {
-      console.log(element.val());
+    console.log (data.val());
+    var selectedGame = _.filter(data.val(), function(element){
+      return element.game === 1;  
+    });
+    var sortedByScore = _.sortBy(selectedGame, function(element){
+      return element.score; 
+    }).reverse();
+    
+    console.log(sortedByScore);
+    
   });
-});
 }
 
 function getLocalTime(cityPic) {
-  queryURL = "https://api.okapi.online/datetime/lookup/time?timezone.addressLocality="+cityPic+"&access_token=ngqrmaeNLzmwbFroz2aIWeeV";
+  queryURL = "https://api.okapi.online/datetime/lookup/time?timezone.addressLocality=" + cityPic + "&access_token=ngqrmaeNLzmwbFroz2aIWeeV";
   console.log("display-url: " + queryURL);
 
   // AJAX GET call for the specific topic buttons being clicked
   $.ajax({
-      url: queryURL,
-      method: "GET"
+    url: queryURL,
+    method: "GET"
   }).then(function (response) {
 
-      console.log(response);
-      console.log(response[0].hour);
+    console.log(response);
+    console.log(response[0].hour);
 
-      var month = response[0].month;
-      var year = response[0].year;
-      var day = response[0].day;
-      var hour = response[0].hour;
-      var minute = response[0].minute;
-      var localTime = hour+":"+minute;
-      var localDate = month+"/"+day+"/"+year;
+    var month = response[0].month;
+    var year = response[0].year;
+    var day = response[0].day;
+    var hour = response[0].hour;
+    var minute = response[0].minute;
+    var localTime = hour + ":" + minute;
+    var localDate = month + "/" + day + "/" + year;
 
-      console.log(localDate);
-      console.log(hour+":"+minute); 
-      
-      $("#localDate").html("Local Date: "+localDate);
-      $("#localTime").html("Local Time: "+localTime);
-      
+    console.log(localDate);
+    console.log(hour + ":" + minute);
+
+    $("#localDate").html("Local Date: " + localDate);
+    $("#localTime").html("Local Time: " + localTime);
+
   });
 }
 
