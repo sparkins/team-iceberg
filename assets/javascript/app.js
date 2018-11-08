@@ -15,11 +15,12 @@ firebase.initializeApp(config);
 var database = firebase.database();
 var temp = 0;
 var tempPic = ("sun");  //pics available for Sun, rain, cloud, snow
-var cityPic = "SF";
+var cityPic = "San Francisco";
 var hour = 0;
 var myGameZeroScores = [];
 var myGameOneScores = [];
 var weather = "";
+var gameIndex = 0;
 
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
@@ -65,15 +66,14 @@ $("#city-select").change(function () {
     picType = "_clear.png"
   }
 
-
   $("#cityName").html(cityPic);
   $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') no-repeat center center fixed");
   $("body").css("-webkit-background-size", "cover", "-moz-background-size", "cover", "-o-background-size", "cover", "background-size", "cover");
   
-  
   getWeather(cityPic);
   getLocalTime(cityPic);
 });
+
 
 $("#game-select").change(function () {
   var gamePic = $("#game-select").val();
@@ -81,16 +81,19 @@ $("#game-select").change(function () {
   var gameChosen = [];
   if (gamePic === ("Space Defender")) {
     $("#colTwo").html("<embed id='game1' src='gameOne.html'>");
+    gameIndex = 0;
+    retrieveAllTimeHighScores(gameIndex);
+    retrievePersonalHighScores(localStorage.userName, gameIndex);
   }
   else if (gamePic === ("Fly High")) {
     $("#colTwo").html("<embed id='game2' src='gameTwo.html'>");
+    gameIndex = 1;
+    retrieveAllTimeHighScores(gameIndex);
+    retrievePersonalHighScores(localStorage.userName, gameIndex);
   }
 })
 
-addNewScore(players);
-retrieveAllTimeHighScores(gameIndex);
-retrievePersonalHighScores("Alyssa", gameIndex);
-
+// addNewScore(players);
 
 function addNewScore(playerObject) {
   var database = firebase.database().ref();
@@ -122,8 +125,7 @@ function retrieveAllTimeHighScores(gameIndex) {
     var i = 1;
     _.each(_.first(sortedByScore, 5), function(player){
       console.log(player);
-      // $("#user"+i).text(player.userName);
-      $("#score"+i).text(player.score);
+      $("#user"+i).html('<li <span id="playerName"> ' +player.userName+'</span> <span id="playerScore">'+player.score+ '</span></li>');
       i++
     })
     });
@@ -141,9 +143,13 @@ function retrievePersonalHighScores(userName, gameIndex) {
       return element.score; 
     }).reverse();
     
-    
-
-    console.log("Personal Top Scores: ",sortedByScore);
+    var i = 1;
+    _.each(_.first(sortedByScore, 3), function(player){
+      // console.log("RetrievePersonalHS: ",player);
+        $("#myScore"+i).html('<li id="myScore">'+player.score+ '</li>');
+        i++
+    });
+        // console.log("Personal Top Scores: ",sortedByScore);
     
   });
 }
@@ -166,6 +172,7 @@ function getLocalTime(cityPic) {
     var day = response[0].day;
     var hour = response[0].hour;
     var minute = response[0].minute;
+    if (minute<10) {minute=parseInt("0"+response[0].minute)}
     var localTime = hour + ":" + minute;
     var localDate = month + "/" + day + "/" + year;
 
@@ -202,19 +209,19 @@ function getWeather(cityPic) {
     console.log(temp);
     console.log(weather);
 
-    $("#temp").text(temp);
+    $("#temp").text(temp + "°F");
 
     chooseTempPic(weather);
 
     function chooseTempPic(weather) {
       if (weather === "Cloud" || weather === "Haze") {
-        tempPic = "cloud.png";
+        tempPic = "assets/images/cloud.png";
       }
       else if (weather === "Clear" && temp > 60) {
-        tempPic = "sun.png";
+        tempPic = "assets/images/sun.png";
       }
       else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
-        tempPic = "rain.png";
+        tempPic = "assets/images/rain.png";
       }
 
       console.log("tempPic: " + tempPic);
