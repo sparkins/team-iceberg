@@ -67,9 +67,10 @@ $("#city-select").change(function () {
 
 
   $("#cityName").html(cityPic);
-
-  $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') center fixed no-repeat");
-
+  $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') no-repeat center center fixed");
+  $("body").css("-webkit-background-size", "cover", "-moz-background-size", "cover", "-o-background-size", "cover", "background-size", "cover");
+  
+  
   getWeather(cityPic);
   getLocalTime(cityPic);
 });
