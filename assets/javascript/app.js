@@ -16,23 +16,22 @@ var database = firebase.database();
 var temp = 0;
 var tempPic = ("sun");  //pics available for Sun, rain, cloud, snow
 var cityPic = "SF";
-
+var hour = 0;
 var myGameZeroScores = [];
 var myGameOneScores = [];
-
-var gameIndex = 0;
+var weather = "";
 
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
-//   // { userName: "Manny", score: 4321, game: 0 }
-//   // { userName: "Eric", score: 2345, game: 1 },
-//   // { userName: "Simon", score: 1212, game: 1 },
-//   // { userName: "Alyssa", score: 7234, game: 1 },
-//   // { userName: "Eric", score: 5345, game: 1 },
-//   // { userName: "Simon", score: 6212, game: 1 },
-//   // { userName: "Alyssa", score: 5234, game: 0 },
-//   // { userName: "Eric", score: 4345, game: 0 },
-//   // { userName: "Simon", score: 3122, game: 0 }
+  // { userName: "Manny", score: 4321, game: 0 }
+  // { userName: "Eric", score: 2345, game: 1 },
+  // { userName: "Simon", score: 1212, game: 1 },
+  // { userName: "Alyssa", score: 7234, game: 1 },
+  // { userName: "Eric", score: 5345, game: 1 },
+  // { userName: "Simon", score: 6212, game: 1 },
+  // { userName: "Alyssa", score: 5234, game: 0 },
+  // { userName: "Eric", score: 4345, game: 0 },
+  // { userName: "Simon", score: 3122, game: 0 }
 ]
 
 // console.log(players.userName);
@@ -45,8 +44,30 @@ $("#city-select").change(function () {
   cityPic = $("#city-select").val();
   console.log("City Name: " + cityPic);
 
+  if (hour<18){
+    dayNight = "day";
+  }
+  else {
+    dayNight = "night";
+  }
+
+  if (weather === "Cloud" || weather === "Haze" || weather === "Clear") {
+    picType = "_clear.png";
+  }
+  
+  else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
+    picType = "_rain.png";
+  }
+  else if (weather === "Snow") {
+    picType = "_snow.png"
+  }
+  else {
+    picType = "_clear.png"
+  }
+
+
   $("#cityName").html(cityPic);
-  $("body").css("background", "url('assets/images/" + cityPic + ".png') center no-repeat");
+  $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') center fixed no-repeat");
 
   getWeather(cityPic);
   getLocalTime(cityPic);
@@ -55,13 +76,12 @@ $("#city-select").change(function () {
 $("#game-select").change(function () {
   var gamePic = $("#game-select").val();
   console.log("game= " + gamePic);
-  if (gamePic === ("Game 1: Space Defender")) {
+  var gameChosen = [];
+  if (gamePic === ("Space Defender")) {
     $("#colTwo").html("<embed id='game1' src='gameOne.html'>");
-    gameIndex = 0;
   }
-  else if (gamePic === ("Game 2: Helicopter Game")) {
+  else if (gamePic === ("Fly High")) {
     $("#colTwo").html("<embed id='game2' src='gameTwo.html'>");
-    gameIndex = 1;
   }
 })
 
