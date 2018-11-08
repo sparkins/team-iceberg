@@ -7,8 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Space Defender</title>
     <link href="https://fonts.googleapis.com/css?family=Cinzel|Orbitron|Permanent+Marker|Yeon+Sung" rel="stylesheet">
-    <!-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
 
+    <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
 
 
     <style>
@@ -21,7 +23,7 @@
         }
 
         #background {
-            background: url("spacegif.gif");
+            background: url("assets/images/spacegif.gif");
             width: 500px;
             height: 500px;
             position: absolute;
@@ -31,7 +33,6 @@
         }
 
         .laser {
-            /* background: rgb(180, 180, 236); */
             background: yellow;
             width: 2px;
             height: 30px;
@@ -39,7 +40,7 @@
         }
 
         .enemy {
-            background: url("enemyShip50x44down.png");
+            background: url("assets/images/enemyShip50x44down.png");
             width: 50px;
             height: 44px;
             position: absolute;
@@ -54,6 +55,7 @@
             top: 20px;
             visibility: visible;
         }
+
         #kills {
             color: rgb(170, 170, 233);
             font-size: 14pt;
@@ -92,13 +94,13 @@
             font-family: "orbitron", sans-serif;
             font-size: 20px;
             line-height: 30%;
-        }
+        } 
+
         #finalkills {
             font-family: "yeon sung";
             color: rgb(239, 239, 255);
             font-size: 30px;
             left: 270px;
-            /* text-align: right; */
             top: 320px;
             visibility: hidden;
             position: absolute;
@@ -122,82 +124,94 @@
              border-color: lime;
              opacity: 20%;
              font-family: "orbitron", sans-serif;
-         };    
+         }   
 
-
-/* <!-- practice code, maybe need to remove --> */
-#restartGame {
-            width: 150px;
+        #restartGame {
             margin-top: 501px;
-            margin-left: 185px;
-            background-color: rgb(37, 6, 37);
+            width: 45px;
+            height: 45px;
+            margin-left: 115px;
+            background-color: rgb(70, 37, 83);
             color: lime;
             border-style: double;
-            border-color: rgb(18, 95, 18);
+            border-color: rgb(33, 119, 33);
             font-family: "orbitron", sans-serif;
             visibility: hidden;
-                };
+         }
+
+         #restartGame:hover {
+             background-color: lime;
+         }
 
          #name {
              font-family: "orbitron", sans-serif;
              color: rgb(30, 9, 54);
              width: 100px;
              margin-top: 10px;
-             /* display: none; */
          }
+
          #userName {
              background-color: rgb(193, 248, 193);
              color: blue;
              font-family: "orbitron", sans-serif;
              width: 380px;
              margin-top: 10px;
+             margin-left: 10px;
              border: rgb(30, 9, 54) 2px inset;
-             /* display: none; */
          }
+
          #nameValue {
              background-color: blueviolet;
-             border: rgb(161, 240, 161) 1px ridge;
+             border: rgb(161, 240, 161) 2px ridge;
              color: rgb(161, 240, 161);
              width: 50px;
              margin-top: 10px;
-            /* display: none; */
+             margin-left: 2px;
          }
-    #submitUserName {
-        width: 500px;
-        /* visibility: hidden; */
-        display: none;
 
-    }
+         #nameValue:hover {
+             background-color: rgb(179, 128, 226);
+             border: rgb(42, 131, 42);
+             color: rgb(19, 66, 19);
+             border-style: double;
+         }
+
+        #submitUserName {
+             width: 500px;
+             display: none;
+             margin-left: 10px;
+         }
 
     </style>
+
+
 </head>
+
 
 <body>
 
     <div id="stuff">
         <div id="background"></div>
-        <img id="player" src="spaceship60.png">
+        <img id="player" src="assets/images/spaceship60.png">
         <div class="laser" id="laser0"></div>
         <div class="laser" id="laser1"></div>
         <div class="laser" id="laser2"></div>
         <div id="score"></div>
         <div id="kills"></div>
-        <img id="endscreen" src="spacegifblue500.gif">
+        <img id="endscreen" src="assets/images/spacegifblue500.gif">
         <div id="playerLoss">Game Over</div>
         <div id="finalscore"></div>
         <div id="finalkills"></div>
-        
+
     </div>
 
 
 
     <button id="start" onclick="doStuff()">Play!</button>
-    <button id="restartGame" onclick="restartGame();"><img height="15px" width="15px" src="refresh.png" alt="Do-Over"></button>
-    <div id="submitUserName"><label id="name">Name: <input type="text" id="userName"></label>
-            <input type="button" id="nameValue" value="OK"></div>
+    <button id="restartGame" onclick="restartGame();"><img height="15px" width="15px" src="assets/images/refresh.png" alt="Start Over"></button>
 
-
-
+    <div id="submitUserName"><label id="name">Who Are You ? <input type="text" id="userName"></label>
+    <input type="button" id="nameValue" value="OK"></div>
     
 
 
@@ -205,8 +219,6 @@
 
 
     <script type="text/javascript">
-
-
 
         var moveLeft = 37;
         var moveUp = 38;
@@ -272,17 +284,11 @@
             }
         };
 
-
-
-
         function setPosition(sprite) {
             var e = document.getElementById(sprite.element);
-            e.style.left = sprite.x + 'px';
-            e.style.top = sprite.y + 'px';
+            e.style.left = sprite.x + "px";
+            e.style.top = sprite.y + "px";
         };
-
-
-
 
         function handleControls() {
             if (controller.up) {
@@ -328,8 +334,6 @@
             return result;
         };
 
-
-
         function checkCollisions() {
             for (var i = 0; i < enemies.length; i++) {
                 var laser = getIntersectingLaser(enemies[i]);
@@ -356,13 +360,11 @@
 
         function playerLoss() {
             var element = document.getElementById(player.element);
-            element.style.visibility = "hidden"; 
-            // NEED TO REMOVE PLAYER RATHER THAN JUST HIDING HIM, BECAUSE IT CAUSES CONTINUOUS PLAYERLOSS() TO BE CALLED...
+            element.parentNode.removeChild(element);
             element = document.getElementById("playerLoss");
-            element.style.visibility = "visible";
+            element.style.display = "visible";
             var element = document.getElementById("submitUserName");
             element.style.visibility = "visible";
-            // practice...need code to prevent player from shooting/scoring after death
             document.getElementById("finalscore").innerHTML = "SCORE: " + score;
             saveScore = score;
             document.getElementById("finalkills").innerHTML = "Kills: " + kills;
@@ -374,20 +376,9 @@
             element.style.visibility = "visible";
             var element = document.getElementById("restartGame");
             element.style.visibility = "visible";
-            // var element = document.getElementById(enemies.element);
-            // element.style.visibility = "hidden";
             var userName = document.getElementById("submitUserName");
-            console.log(userName);
-            // var userName2 = document.getElementById("userName");
-            // var userName3 = document.getElementById("nameValue");
             userName.style.display = "block";
-            // userName2.style.visibility = "visible";
-            // userName3.style.visibility = "visible";
-
-
         };
-
-
 
         function showSprites() {
             setPosition(player);
@@ -415,8 +406,6 @@
             }
         };
 
-
-
         function addEnemy() {
             var interval = 50;
             if (iterations > 1500) {
@@ -435,7 +424,6 @@
                 element.id = enemy.element;
                 element.className = "enemy";
                 document.children[0].appendChild(element);
-
                 enemies[enemies.length] = enemy;
             }
         };
@@ -460,7 +448,7 @@
             setTimeout("loop();", 2);
         };
 
-        // stops player sprite from moving when user stops pressing down on key
+        // determines if player is moving or not (aka if an arrow key is being pressed or not)
         document.onkeydown = function (evt) {
             toggleKey(evt.keyCode, true);
         };
@@ -475,47 +463,43 @@
             gun[i] = createSprite("laser" + i, 0, -120, 2, 50);
         };
 
+
+
+
         function doStuff() {
             var startBtn = document.getElementById("start");
             startBtn.style.visibility = "hidden";
             loop();
-
-
-
         }
 
 
-(function() {
-  // Use an input to show the current value and let
-  // the user set a new one
+        (function () {
+            var input = document.getElementById("userName");
+            // Reads input for user's name and stores value
+            if (localStorage && "userName" in localStorage) {
+                input.value = localStorage.userName;
+            }
+            //writes the value into local storage and console log
+            document.getElementById("nameValue").onclick = function () {
+                localStorage && (localStorage.userName = input.value);
+                console.log(input.value + ", " + saveScore + " Game: Space Defender, 0");
+                //sends results to firebase as an array
+                var players = [{ userName: input.value, score: saveScore, game: 0 }];
+                console.log(players);
+                addNewScore(players);
+            };
+        })();
 
-  var input = document.getElementById("userName");
-
-  // Reading the value, which was store as "theValue"
-  if (localStorage && 'userName' in localStorage) {
-    input.value = localStorage.userName;
-  }
-
-  document.getElementById("nameValue").onclick = function () {
-    // Writing the value
-    localStorage && (localStorage.userName = input.value);
-    console.log(input.value + ", " + saveScore + " Game0");
-    // STILL NEED CODE TO SAVE THE SCORE WITH THE NAME
-  };
-})();
-
-
-
-// <!-- 
-// document.getElementById("restartGame").on("click", function(){ -->
-     function restartGame() {
+        //restarts game by refreshing page
+        function restartGame() {
             location.reload();
             loop();
         };
-// })
-       
+
+
 
     </script>
+    <script src="assets/javascript/app.js"></script>
 </body>
 
 </html>
