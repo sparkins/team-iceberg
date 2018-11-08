@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link href="https://fonts.googleapis.com/css?family=Cinzel|Orbitron|Permanent+Marker|Yeon+Sung" rel="stylesheet">
-<style>
 
-* {
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css?family=Cinzel|Orbitron|Permanent+Marker|Yeon+Sung" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+    <style>
+
+        * {
     font-family: orbitron;
 }
 canvas {
     border:1px solid;
     border-color: rgb(208, 208, 241);
-    background: url("militaryCops.gif");
+    background: url("assets/images/militaryCops.gif");
 }
 
 
@@ -78,193 +83,203 @@ canvas {
 
 </style>
 </head>
+
 <body>
-        <div id="gameover">GAME OVER<br><button id="restart" visibility="hidden" onclick="playAgain();">Play Again? <img height="15px" width="15px" src="refresh.png" alt="Do-Over"></button></div><div id="finalscore"></div>
-        <div id="submitUserName"><label id="name">Name: <input type="text" id="userName"></label>
-            <input type="button" id="nameValue" value="OK"></div>
+    <div id="gameover">GAME OVER<br><button id="restart" visibility="hidden" onclick="playAgain();">Play Again? <img
+                height="15px" width="15px" src="assets/images/refresh.png" alt="Do-Over"></button></div>
+    <div id="finalscore"></div>
+    <div id="submitUserName"><label id="name">Name: <input type="text" id="userName"></label>
+        <input type="button" id="nameValue" value="OK"></div>
     <button id="startbtn" onclick="startGame()">New Game</button>
-<script>
-// var player = createSprite("player", 30, 30, 10, 120);
-// var player;
-var gameObstacle = [];
-var myScore;
+    <script>
 
-function startGame() {
-    player = new component(30, 30, "rgb(208, 208, 241)", 10, 120);
-    player.gravity = 0.05;
-    myScore = new component("20px", "orbitron", "black", 275, 40, "text");
-    playArea.start();
-    btn = document.getElementById("startbtn");
-    btn.style.visibility = "hidden";
-    hoverbtn = document.getElementById("hoverbtn");
-    hoverbtn.style.visibility = "visible";
-    instruction = document.getElementById("instructions");
-    instruction.style.visibility = "hidden";
-}
+        var gameObstacle = [];
+        var myScore;
 
-var playArea = {
-    canvas : document.createElement("canvas"),
-    start : function() {
-        this.canvas.color = "black";
-        this.canvas.width = 480;
-        this.canvas.height = 270;
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.frameNo = 0;
-        this.interval = setInterval(updatePlayArea, 20);
-        },
-    clear : function() {
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-}
-
-function component(width, height, color, x, y, type) {
-    this.type = type;
-    this.score = 0;
-    this.width = width;
-    this.height = height;
-    this.speedX = 0;
-    this.speedY = 0;    
-    this.x = x;
-    this.y = y;
-    this.gravity = 0;
-    this.gravitySpeed = 0;
-    this.update = function() {
-        ctx = playArea.context;
-        if (this.type == "text") {
-            ctx.font = this.width + " " + this.height;
-            ctx.fillStyle = color;
-            ctx.fillText(this.text, this.x, this.y);
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+        function startGame() {
+            player = new component(30, 30, "rgb(208, 208, 241)", 10, 120);
+            player.gravity = 0.05;
+            myScore = new component("20px", "orbitron", "black", 275, 40, "text");
+            playArea.start();
+            btn = document.getElementById("startbtn");
+            btn.style.visibility = "hidden";
+            hoverbtn = document.getElementById("hoverbtn");
+            hoverbtn.style.visibility = "visible";
+            instruction = document.getElementById("instructions");
+            instruction.style.visibility = "hidden";
         }
-    }
-    this.newPos = function() {
-        this.gravitySpeed += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY + this.gravitySpeed;
-        this.hitBottom();
-        this.hitTop();
-    }
-    this.hitBottom = function() {
-        var rockbottom = playArea.canvas.height - this.height;
-        if (this.y > rockbottom) {
-            this.y = rockbottom;
+
+        var playArea = {
+            canvas: document.createElement("canvas"),
+            start: function () {
+                this.canvas.color = "black";
+                this.canvas.width = 480;
+                this.canvas.height = 270;
+                this.context = this.canvas.getContext("2d");
+                document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                this.frameNo = 0;
+                this.interval = setInterval(updatePlayArea, 20);
+            },
+            clear: function () {
+                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }
+        }
+
+        function component(width, height, color, x, y, type) {
+            this.type = type;
+            this.score = 0;
+            this.width = width;
+            this.height = height;
+            this.speedX = 0;
+            this.speedY = 0;
+            this.x = x;
+            this.y = y;
+            this.gravity = 0;
             this.gravitySpeed = 0;
+            this.update = function () {
+                ctx = playArea.context;
+                if (this.type == "text") {
+                    ctx.font = this.width + " " + this.height;
+                    ctx.fillStyle = color;
+                    ctx.fillText(this.text, this.x, this.y);
+                } else {
+                    ctx.fillStyle = color;
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                }
+            }
+            this.newPos = function () {
+                this.gravitySpeed += this.gravity;
+                this.x += this.speedX;
+                this.y += this.speedY + this.gravitySpeed;
+                this.hitBottom();
+                this.hitTop();
+            }
+            this.hitBottom = function () {
+                var rockbottom = playArea.canvas.height - this.height;
+                if (this.y > rockbottom) {
+                    this.y = rockbottom;
+                    this.gravitySpeed = 0;
+                }
+            }
+            this.hitTop = function () {
+                var rocktop = 0;
+                if (this.y < rocktop) {
+                    this.y = rocktop;
+                    this.accelerate = 0;
+                }
+            }
+
+
+
+
+            this.playerCrash = function (otherobj) {
+                var myleft = this.x;
+                var myright = this.x + (this.width);
+                var mytop = this.y;
+                var mybottom = this.y + (this.height);
+                var otherleft = otherobj.x;
+                var otherright = otherobj.x + (otherobj.width);
+                var othertop = otherobj.y;
+                var otherbottom = otherobj.y + (otherobj.height);
+                var crash = true;
+                if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                    crash = false;
+                }
+                return crash;
+
+            }
         }
-    }
-this.hitTop = function() {
-    var rocktop = 0;
-    if (this.y < rocktop) {
-        this.y = rocktop;
-        this.accelerate = 0;
-    }
-}
 
 
-
-
-    this.playerCrash = function(otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
+        function updatePlayArea() {
+            var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+            for (i = 0; i < gameObstacle.length; i += 1) {
+                if (player.playerCrash(gameObstacle[i])) {
+                    var gameOver = document.getElementById("gameover");
+                    gameOver.style.visibility = "visible";
+                    document.getElementById("finalscore").innerHTML = "Score: " + playArea.frameNo;
+                    hoverbtn.style.visibility = "hidden";
+                    var reStart = document.getElementById("restart");
+                    reStart.style.visibility = "visible";
+                    playArea.clear();
+                    element = document.getElementById("submitUserName");
+                    element.style.visibility = "visible";
+                    return;
+                }
+            }
+            playArea.clear();
+            playArea.frameNo += 1;
+            if (playArea.frameNo == 1 || everyinterval(150)) {
+                x = playArea.canvas.width;
+                minHeight = 20;
+                maxHeight = 200;
+                height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+                minGap = 50;
+                maxGap = 200;
+                gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+                gameObstacle.push(new component(25, height, "rgb(34, 34, 197)", x, 0));
+                gameObstacle.push(new component(25, x - height - gap, "rgb(34, 34, 197)", x, height + gap));
+            }
+            for (i = 0; i < gameObstacle.length; i += 1) {
+                gameObstacle[i].x += -1;
+                gameObstacle[i].update();
+            }
+            myScore.text = "SCORE: " + playArea.frameNo;
+            myScore.update();
+            player.newPos();
+            player.update();
         }
-        return crash;
 
+        function everyinterval(n) {
+            if ((playArea.frameNo / n) % 1 == 0) { return true; }
+            return false;
         }
-    }
+
+        function accelerate(n) {
+            player.gravity = n;
+        }
+
+        function playAgain() {
+            location.reload();
+        }
+
+        (function () {
+            // username gets read, stored as a variable and writen into local storage && console log
+            var input = document.getElementById("userName");
 
 
-function updatePlayArea() {
-    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
-    for (i = 0; i < gameObstacle.length; i += 1) {
-        if (player.playerCrash(gameObstacle[i])) {
-            var gameOver = document.getElementById("gameover");
-             gameOver.style.visibility = "visible";
-             document.getElementById("finalscore").innerHTML = "Score: " + playArea.frameNo;
-             hoverbtn.style.visibility = "hidden";
-             var reStart = document.getElementById("restart");
-             reStart.style.visibility = "visible";
-             playArea.clear();
-             element = document.getElementById("submitUserName");
-             element.style.visibility = "visible";
-            return;
-        } 
-    }
-    playArea.clear();
-    playArea.frameNo += 1;
-    if (playArea.frameNo == 1 || everyinterval(150)) {
-        x = playArea.canvas.width;
-        minHeight = 20;
-        maxHeight = 200;
-        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-        minGap = 50;
-        maxGap = 200;
-        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        gameObstacle.push(new component(25, height, "rgb(34, 34, 197)", x, 0));
-        gameObstacle.push(new component(25, x - height - gap, "rgb(34, 34, 197)", x, height + gap));
-    }
-    for (i = 0; i < gameObstacle.length; i += 1) {
-        gameObstacle[i].x += -1;
-        gameObstacle[i].update();
-    }
-    myScore.text="SCORE: " + playArea.frameNo;
-    myScore.update();
-    player.newPos();
-    player.update();
-}
+            if (localStorage && 'userName' in localStorage) {
+                input.value = localStorage.userName;
+            }
 
-function everyinterval(n) {
-    if ((playArea.frameNo / n) % 1 == 0) {return true;}
-    return false;
-}
-
-function accelerate(n) {
-    player.gravity = n;
-}
-
-function playAgain(){
-    location.reload();
-}
-
-(function() {
-  // Use an input to show the current value and let
-  // the user set a new one
-
-  var input = document.getElementById("userName");
-
-  // Reading the value, which was store as "theValue"
-  if (localStorage && 'userName' in localStorage) {
-    input.value = localStorage.userName;
-  }
-
-  document.getElementById("nameValue").onclick = function () {
-    // Writing the value
-    localStorage && (localStorage.userName = input.value);
-    console.log(input.value + ", " + playArea.frameNo + " Game1");
-    // STILL NEED CODE TO SAVE THE SCORE WITH THE NAME
-  };
-})();
+            document.getElementById("nameValue").onclick = function () {
+                localStorage && (localStorage.userName = input.value);
+                console.log(input.value + ", " + playArea.frameNo + "Game: Fly High, 1");
+                //adds info as an array to firebase with function from app.js
+                var players = [{ userName: input.value, score: playArea.frameNo, game: 1 }];
+                console.log(players);
+                addNewScore(players);
+            };
+        })();
 
 
-</script>
+    </script>
+    <script src="assets/javascript/app.js"></script>
 
+<<<<<<< HEAD
 <br>
 <!-- added bouncing button noise -->
 <audio id="bounce" src="assets/sounds/Bounce.mp3" preload="auto"></audio>
 <button onclick="document.getElementById('bounce').play();" onmousedown="accelerate(-0.3)" onmouseup="accelerate(0.3)" id="hoverbtn">HOVER</button>
 <div id="instructions">Use the button to hover in the air and avoid obstacles.</div>
+=======
+    <br>
+    <button onmousedown="accelerate(-0.3)" onmouseup="accelerate(0.3)" id="hoverbtn">HOVER</button>
+    <div id="instructions">Use the button to hover in the air and avoid obstacles.</div>
+>>>>>>> bdcdbb923a70f90455e45e7b615af2c1ad4b315c
 
 
 
 </body>
+
 </html>
