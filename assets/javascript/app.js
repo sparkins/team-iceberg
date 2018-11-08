@@ -67,6 +67,7 @@ $("#city-select").change(function () {
 
 
   $("#cityName").html(cityPic);
+
   $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') center fixed no-repeat");
 
   getWeather(cityPic);
