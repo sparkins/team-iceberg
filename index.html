@@ -60,8 +60,8 @@
                         <label for="exampleFormControlSelect1">Choose your game</label>
                         <select class="form-control" id="game-select">
                             <option id="gamePick">Pick A Game...</option>
-                            <option id="shoot">Game 1: Space Defender</option>
-                            <option id="helicopter">Game 2: Helicopter Game</option>
+                            <option id="shoot">Space Defender</option>
+                            <option id="helicopter">Fly High</option>
                             <!-- <option id="unknown">Game 3: maybe..??</option> -->
                         </select>
                     </div>
@@ -70,8 +70,9 @@
                         <label for="exampleFormControlSelect1">Choose your game</label>
                         <select class="form-control" id="city-select">
                             <option id="cityPick">Pick A City...</option>
-                            <option id="sf">SF</option>
+                            <option id="sf">San Francisco</option>
                             <option id="egypt">Cairo</option>
+                            <option id="ny">New York</option>
                             <option id="london">London</option>
                             <option id="abu-dhabi">Abu Dhabi</option>
                         </select>
@@ -81,16 +82,16 @@
 
                 <br>
 
-                <!-- Placeholder divs to display the local temp and a weather image -->
+                <!-- display the local temp and a weather icon image -->
                 <div id="temp">72°F</div>
                 <div id="tempPic"></div>
-                <!-- <img id="tempPic" src="rain.png" width="280px" height="210px"> -->
-                <!-- other tempPic images in folder: sun.png, cloud.png, ....and either "snow.png" or "snowman.png" for snow -->
+                <!-- <img inside "tempPic" width="280px" height="210px"> -->
+                <!-- src options = sun.png, cloud.png, rain.png, snow.png -->
 
             </div>
             <div class="col" id="colTwo">
                 <!-- Game code is embeded here -->
-                <!-- <embed id="game" src="gameOne.html"> -->
+                <!-- <embed id="game1" src="gameOne.html"> -->
 
             </div>
             <div class="col" id="colThree">
@@ -101,23 +102,23 @@
                         Time Champions</li>
                     <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user1">
                         Eric
-                        <span class="badge badge-primary badge-pill" id="score1">14000</span>
+                        <div class="badge badge-primary badge-pill" id="score1">14000</div>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user2">
                         Simon
-                        <span class="badge badge-primary badge-pill" id="score2">13000</span>
+                        <div class="badge badge-primary badge-pill" id="score2">13000</div>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user3">
                         Alyssa
-                        <span class="badge badge-primary badge-pill" id="score3">12000</span>
+                        <div class="badge badge-primary badge-pill" id="score3">12000</div>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user4">
                         Simon
-                        <span class="badge badge-primary badge-pill" id="score4">11000</span>
+                        <div class="badge badge-primary badge-pill" id="score4">11000</div>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user5">
                         Alyssa
-                        <span class="badge badge-primary badge-pill" id="score5">10000</span>
+                        <div class="badge badge-primary badge-pill" id="score5">10000</div>
                     </li>
                 </ul>
                 <br>
@@ -127,15 +128,15 @@
                         Top Scores</li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         8000
-                        <span class="badge badge-primary badge-pill"></span>
+                        <div class="badge badge-primary badge-pill"></div>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         7200
-                        <span class="badge badge-primary badge-pill"></span>
+                        <div class="badge badge-primary badge-pill"></div>
                     </li>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         7005
-                        <span class="badge badge-primary badge-pill"></span>
+                        <div class="badge badge-primary badge-pill"></div>
                     </li>
                 </ul>
 

@@ -16,9 +16,10 @@ var database = firebase.database();
 var temp = 0;
 var tempPic = ("sun");  //pics available for Sun, rain, cloud, snow
 var cityPic = "SF";
-
+var hour = 0;
 var myGameZeroScores = [];
 var myGameOneScores = [];
+var weather = "";
 
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
@@ -43,9 +44,31 @@ $("#city-select").change(function () {
   cityPic = $("#city-select").val();
   console.log("City Name: " + cityPic);
 
+  if (hour<18){
+    dayNight = "day";
+  }
+  else {
+    dayNight = "night";
+  }
+
+  if (weather === "Cloud" || weather === "Haze" || weather === "Clear") {
+    picType = "_clear.png";
+  }
+  
+  else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
+    picType = "_rain.png";
+  }
+  else if (weather === "Snow") {
+    picType = "_snow.png"
+  }
+  else {
+    picType = "_clear.png"
+  }
+
+
   $("#cityName").html(cityPic);
 
-  $("body").css("background", "url('assets/images/" + cityPic + ".png') center no-repeat");
+  $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') center fixed no-repeat");
 
   getWeather(cityPic);
   getLocalTime(cityPic);
@@ -55,17 +78,17 @@ $("#game-select").change(function () {
   var gamePic = $("#game-select").val();
   console.log("game= " + gamePic);
   var gameChosen = [];
-  if (gamePic === ("Game 1: Space Defender")) {
+  if (gamePic === ("Space Defender")) {
     $("#colTwo").html("<embed id='game1' src='gameOne.html'>");
   }
-  else if (gamePic === ("Game 2: Helicopter Game")) {
+  else if (gamePic === ("Fly High")) {
     $("#colTwo").html("<embed id='game2' src='gameTwo.html'>");
   }
 })
 
 addNewScore(players);
-retrieveAllTimeHighScores(0);
-retrievePersonalHighScores("Simon", 0);
+retrieveAllTimeHighScores(gameIndex);
+retrievePersonalHighScores("Alyssa", gameIndex);
 
 
 function addNewScore(playerObject) {
@@ -78,37 +101,48 @@ function addNewScore(playerObject) {
       score: element.score,
       game: element.game
     });
-    console.log("Added score for " + element.userName);
+    console.log("Added score for ", element.userName);
   });
 }
 
 function retrieveAllTimeHighScores(gameIndex) {
   var highestScores = firebase.database().ref('players');
-  highestScores.orderByChild("score").limitToLast(5).once('value', function (data) {
-    data.forEach(function (element) {
-      console.log(element.val());
-      console.log(element.val().game);
-      var game = element.val().game;
-      var game = element.val().userName;
-      var game = element.val().score;
-      
+  highestScores.orderByChild("score").once('value', function (data) {
+    console.log("GameIndex: "+gameIndex);
+    console.log(typeof gameIndex);
+    console.log (data.val());
+    var selectedGame = _.filter(data.val(), function(element){
+      return element.game === gameIndex;  
     });
-  });
+    var sortedByScore = _.sortBy(selectedGame, function(element){
+      return element.score; 
+    }).reverse();
+
+    var i = 1;
+    _.each(_.first(sortedByScore, 5), function(player){
+      console.log(player);
+      // $("#user"+i).text(player.userName);
+      $("#score"+i).text(player.score);
+      i++
+    })
+    });
 }
 
 function retrievePersonalHighScores(userName, gameIndex) {
-  // var gameId = firebase.database().ref('players').orderByChild("game").equalTo(gameIndex);
   var personalTopScores = firebase.database().ref('players');
   personalTopScores.orderByChild("userName").equalTo(userName).once('value', function (data) {
+    console.log("GameIndex: "+gameIndex);
     console.log (data.val());
     var selectedGame = _.filter(data.val(), function(element){
-      return element.game === 1;  
+      return element.game === gameIndex;  
     });
     var sortedByScore = _.sortBy(selectedGame, function(element){
       return element.score; 
     }).reverse();
     
-    console.log(sortedByScore);
+    
+
+    console.log("Personal Top Scores: ",sortedByScore);
     
   });
 }
