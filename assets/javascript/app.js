@@ -20,17 +20,19 @@ var cityPic = "SF";
 var myGameZeroScores = [];
 var myGameOneScores = [];
 
+var gameIndex = 0;
+
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
-  // { userName: "Manny", score: 4321, game: 0 }
-  // { userName: "Eric", score: 2345, game: 1 },
-  // { userName: "Simon", score: 1212, game: 1 },
-  // { userName: "Alyssa", score: 7234, game: 1 },
-  // { userName: "Eric", score: 5345, game: 1 },
-  // { userName: "Simon", score: 6212, game: 1 },
-  // { userName: "Alyssa", score: 5234, game: 0 },
-  // { userName: "Eric", score: 4345, game: 0 },
-  // { userName: "Simon", score: 3122, game: 0 }
+//   // { userName: "Manny", score: 4321, game: 0 }
+//   // { userName: "Eric", score: 2345, game: 1 },
+//   // { userName: "Simon", score: 1212, game: 1 },
+//   // { userName: "Alyssa", score: 7234, game: 1 },
+//   // { userName: "Eric", score: 5345, game: 1 },
+//   // { userName: "Simon", score: 6212, game: 1 },
+//   // { userName: "Alyssa", score: 5234, game: 0 },
+//   // { userName: "Eric", score: 4345, game: 0 },
+//   // { userName: "Simon", score: 3122, game: 0 }
 ]
 
 // console.log(players.userName);
@@ -53,18 +55,19 @@ $("#city-select").change(function () {
 $("#game-select").change(function () {
   var gamePic = $("#game-select").val();
   console.log("game= " + gamePic);
-  var gameChosen = [];
   if (gamePic === ("Game 1: Space Defender")) {
     $("#colTwo").html("<embed id='game1' src='gameOne.html'>");
+    gameIndex = 0;
   }
   else if (gamePic === ("Game 2: Helicopter Game")) {
     $("#colTwo").html("<embed id='game2' src='gameTwo.html'>");
+    gameIndex = 1;
   }
 })
 
 addNewScore(players);
-retrieveAllTimeHighScores(0);
-retrievePersonalHighScores("Simon", 0);
+retrieveAllTimeHighScores(gameIndex);
+retrievePersonalHighScores("Alyssa", gameIndex);
 
 
 function addNewScore(playerObject) {
@@ -77,37 +80,48 @@ function addNewScore(playerObject) {
       score: element.score,
       game: element.game
     });
-    console.log("Added score for " + element.userName);
+    console.log("Added score for ", element.userName);
   });
 }
 
 function retrieveAllTimeHighScores(gameIndex) {
   var highestScores = firebase.database().ref('players');
-  highestScores.orderByChild("score").limitToLast(5).once('value', function (data) {
-    data.forEach(function (element) {
-      console.log(element.val());
-      console.log(element.val().game);
-      var game = element.val().game;
-      var game = element.val().userName;
-      var game = element.val().score;
-      
+  highestScores.orderByChild("score").once('value', function (data) {
+    console.log("GameIndex: "+gameIndex);
+    console.log(typeof gameIndex);
+    console.log (data.val());
+    var selectedGame = _.filter(data.val(), function(element){
+      return element.game === gameIndex;  
     });
-  });
+    var sortedByScore = _.sortBy(selectedGame, function(element){
+      return element.score; 
+    }).reverse();
+
+    var i = 1;
+    _.each(_.first(sortedByScore, 5), function(player){
+      console.log(player);
+      // $("#user"+i).text(player.userName);
+      $("#score"+i).text(player.score);
+      i++
+    })
+    });
 }
 
 function retrievePersonalHighScores(userName, gameIndex) {
-  // var gameId = firebase.database().ref('players').orderByChild("game").equalTo(gameIndex);
   var personalTopScores = firebase.database().ref('players');
   personalTopScores.orderByChild("userName").equalTo(userName).once('value', function (data) {
+    console.log("GameIndex: "+gameIndex);
     console.log (data.val());
     var selectedGame = _.filter(data.val(), function(element){
-      return element.game === 1;  
+      return element.game === gameIndex;  
     });
     var sortedByScore = _.sortBy(selectedGame, function(element){
       return element.score; 
     }).reverse();
     
-    console.log(sortedByScore);
+    
+
+    console.log("Personal Top Scores: ",sortedByScore);
     
   });
 }
