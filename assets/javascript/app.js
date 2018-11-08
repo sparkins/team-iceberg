@@ -91,6 +91,8 @@ addNewScore(players);
 retrieveAllTimeHighScores(gameIndex);
 retrievePersonalHighScores("Alyssa", gameIndex);
 
+gameIndex = players.game;
+
 
 function addNewScore(playerObject) {
   var database = firebase.database().ref();
@@ -202,19 +204,19 @@ function getWeather(cityPic) {
     console.log(temp);
     console.log(weather);
 
-    $("#temp").text(temp);
+    $("#temp").text(temp + "°F");
 
     chooseTempPic(weather);
 
     function chooseTempPic(weather) {
       if (weather === "Cloud" || weather === "Haze") {
-        tempPic = "cloud.png";
+        tempPic = "assets/images/cloud.png";
       }
       else if (weather === "Clear" && temp > 60) {
-        tempPic = "sun.png";
+        tempPic = "assets/images/sun.png";
       }
       else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
-        tempPic = "rain.png";
+        tempPic = "assets/images/rain.png";
       }
 
       console.log("tempPic: " + tempPic);
