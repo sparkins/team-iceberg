@@ -100,8 +100,7 @@ function retrieveAllTimeHighScores(gameIndex) {
     var i = 1;
     _.each(_.first(sortedByScore, 5), function(player){
       console.log(player);
-      // $("#user"+i).text(player.userName);
-      $("#score"+i).text(player.score);
+      $("#user"+i).html('<li <span id="playerName"> ' +player.userName+'</span> <span id="playerScore">'+player.score+ '</span></li>');
       i++
     })
     });
@@ -119,8 +118,15 @@ function retrievePersonalHighScores(userName, gameIndex) {
       return element.score; 
     }).reverse();
     
-    
-
+    var i = 1;
+    _.each(_.first(sortedByScore, 3), function(player){
+      console.log("RetrievePersonalHS: ",player);
+        // $("#user"+i).text(player.userName);
+        $("#myScore"+i).html('<li id="myScore">'+player.score+ '</li>');
+        i++
+    });
+          
+    // $("#currentUser").text(player.userName);
     console.log("Personal Top Scores: ",sortedByScore);
     
   });

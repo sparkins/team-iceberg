@@ -143,24 +143,6 @@ body {
     margin-right: 40px;
 }
 
-#allTimeScores {
-    background-color: rgb(204, 243, 206);
-    color: rgb(28, 83, 28);
-    /* font-size: 20px;
-            height: 300px;
-            margin-right: 20px;
-            margin-left: 20px; */
-}
-
-#personalScores {
-    background-color: rgb(204, 243, 206);
-    color: rgb(28, 83, 28);
-    /* font-size: 20px;
-            height: 150px;
-            margin-right: 20px;
-            margin-left: 20px; */
-}
-
 #list-group-item {
     background-color: tan;
     color: green;
@@ -210,3 +192,34 @@ h1 {
     border-right: rgb(162, 237, 247) ridge;
 }
 
+#playerName{
+font-style: inherit;
+color: green;
+font-family: orbitron;
+}
+
+#playerScore{
+    margin-left: 75px;
+    border-radius: 50%;
+    border-width: 1px;
+    border-color: blue;
+    color: white;
+    background-color: royalblue;
+    padding: 10px;
+    font-style: inherit; 
+    font-family: orbitron;
+}
+
+#topScoresHeader {
+    background-color: rgb(204, 243, 206);
+    color: rgb(28, 83, 28);
+    font-style: inherit; 
+    font-family: orbitron;
+    font-weight: bold;
+}
+
+#myScore{
+    font-style: inherit;
+    color: green;
+    font-family: orbitron;  
+}
