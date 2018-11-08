@@ -1,0 +1,212 @@
+* {
+    box-sizing: border-box;
+
+}
+
+body {
+    background: rgb(9, 59, 9);
+}
+
+/* <!-- topCol2 is the header area --> */
+#topCol2 {
+    width: 60%;
+    height: 80px;
+    float: left;
+    text-align: center;
+    color: lime;
+    background: url("../images/transGrey.png");
+    /* fill-opacity: 30%; */
+    border-top: rgb(162, 237, 247) ridge;
+    border-bottom: rgb(162, 237, 247) ridge;
+}
+
+#topCol1,
+#topCol3 {
+    width: 20%;
+    height: 80px;
+    float: left;
+    text-align: center;
+    color: rgb(97, 182, 97);
+    background: url("../images/transGrey.png");
+    border-top: rgb(162, 237, 247) ridge;
+    border-bottom: rgb(162, 237, 247) ridge;
+    font-family: "yeon sung", sans-serif;
+}
+
+#topCol1 {
+    border-left: rgb(162, 237, 247) ridge;
+}
+
+#topCol3 {
+    border-right: rgb(162, 237, 247) ridge;
+}
+
+/* <!-- colOne is where we display options such as location and game --> */
+#colOne {
+    width: 20%;
+    float: left;
+    color: white;
+    background: url("../images/transGrey.png");
+    border-color: rgb(162, 237, 247);
+    border-style: ridge;
+    height: 580px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* <!-- colTwo is where the game will be displayed --> */
+#colTwo {
+    width: 574.8px;
+    float: left;
+    background: rgb(35, 94, 102);
+    border-color: rgb(162, 237, 247);
+    border-style: ridge;
+    height: 534.8px;
+    margin-top: 20px;
+}
+
+/* <!-- colThree is where the scores are displayed --> */
+#colThree {
+    width: 20%;
+    float: left;
+    color: darkblue;
+    border-color: rgb(162, 237, 247);
+    background: url("../images/transGrey.png");
+    border-style: ridge;
+    height: 580px;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#colFour {
+    float: left;
+    width: 20%;
+    background: url("../images/transGrey.png");
+    color: white;
+    border-left: rgb(162, 237, 247) ridge;
+    border-top: rgb(162, 237, 247) ridge;
+    /* border-bottom: rgb(162, 237, 247) ridge; */
+    height: 40px;
+    background: url("../images/transGrey.png");
+}
+
+#foot {
+    width: 60%;
+    float: left;
+    text-align: center;
+    color: lime;
+    background: url("../images/transGrey.png");
+    border-top: rgb(162, 237, 247) ridge;
+    /* border-bottom: rgb(162, 237, 247) ridge; */
+    height: 40px;
+}
+
+
+#colFive {
+    float: left;
+    width: 20%;
+    color: white;
+    border-right: rgb(162, 237, 247) ridge;
+    border-top: rgb(162, 237, 247) ridge;
+    /* border-bottom: rgb(162, 237, 247) ridge; */
+    height: 40px;
+    background: url("../images/transGrey.png");
+
+}
+
+#chooseGame {
+    /* margin-top: 100px; */
+    align-content: center;
+    /* width: 200px; */
+    height: 50px;
+    /* margin-left: 40px;
+            margin-right: 40px; */
+}
+
+#chooseCity {
+    margin-top: 200px;
+    align-content: center;
+    width: 200px;
+    /* height: 50px; */
+    /* margin-left: 40px;
+            margin-right: 40px; */
+}
+
+#go {
+    margin-top: 100px;
+    align-content: center;
+    width: 200px;
+    height: 50px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#allTimeScores {
+    background-color: rgb(204, 243, 206);
+    color: rgb(28, 83, 28);
+    /* font-size: 20px;
+            height: 300px;
+            margin-right: 20px;
+            margin-left: 20px; */
+}
+
+#personalScores {
+    background-color: rgb(204, 243, 206);
+    color: rgb(28, 83, 28);
+    /* font-size: 20px;
+            height: 150px;
+            margin-right: 20px;
+            margin-left: 20px; */
+}
+
+#list-group-item {
+    background-color: tan;
+    color: green;
+}
+
+#game1 {
+    height: 670px;
+    width: 550px;
+    margin: auto;
+    padding-top: 10px;
+
+}
+
+#game2 {
+    height: 500px;
+    width: 500px;
+    margin: auto;
+    padding-top: 10px;
+}
+
+h1 {
+    color: rgb(162, 237, 247);
+    font-family: orbitron;
+}
+
+#temp {
+    font-size: 40px;
+}
+
+#finalLeft,
+#finalMid,
+#finalRight {
+    width: 33.33%;
+    float: left;
+    text-align: center;
+    color: rgb(162, 237, 247);
+    background: url("../images/transGrey.png");
+    border-bottom: rgb(162, 237, 247) ridge;
+    height: 40px;
+}
+
+#finalLeft {
+    border-left: rgb(162, 237, 247) ridge;
+}
+
+#finalRight {
+    border-right: rgb(162, 237, 247) ridge;
+}
+

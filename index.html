@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Iceberg Game Platform</title>
+
+    <!-- Link to jquery library -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+
+    <!-- Link to google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Cinzel|Orbitron|Permanent+Marker|Yeon+Sung" rel="stylesheet">
+
+    <!-- Links to the bootstrap library -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <!-- Link to Underscore Library -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+
+    <!-- Link to firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.6/firebase.js"></script>
+
+    <!-- links to css style sheets -->
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+    <!-- Container for the game control panel -->
+    <div class="container">
+        <div class="row">
+            <div class="col" id="topCol1"><span id="localDate">Current Date and</span>
+                <h3 id="localTime">[Time]</h3>
+            </div>
+            <div class="col" id="topCol2">
+                <h1>Nomadic Match</h1>
+            </div>
+            <div class="col" id="topCol3">Welcome To
+                <h3 id="cityName"></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id="colOne"><br>
+
+
+                <form>
+
+                    <!-- The forms in colOne (where we ask the user which game and which city they want to play) should be the same style, 
+                        I left both models here because idk which one you guys think looks better. The 1st form is a dropdown menu and 
+                        the 2nd form is a list. If we use this layout, lets copy /paste the one you like 2x and delete the ither one -->
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Choose your game</label>
+                        <select class="form-control" id="game-select">
+                            <option id="gamePick">Pick A Game...</option>
+                            <option id="shoot">Game 1: Space Defender</option>
+                            <option id="helicopter">Game 2: Helicopter Game</option>
+                            <!-- <option id="unknown">Game 3: maybe..??</option> -->
+                        </select>
+                    </div>
+            
+                    <!-- <button type="submit" class="btn btn-primary">Go</button> -->
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Choose your game</label>
+                        <select class="form-control" id="city-select">
+                            <option id="cityPick">Pick A City...</option>
+                            <option id="sf">SF</option>
+                            <option id="egypt">Cairo</option>
+                            <option id="london">London</option>
+                            <option id="abu-dhabi">Abu Dhabi</option>
+                        </select>
+                    </div>
+
+                </form>
+
+                <br>
+
+                <!-- Placeholder divs to display the local temp and a weather image -->
+                <div id="temp">72°F</div>
+                <div id="tempPic"></div>
+                <!-- <img id="tempPic" src="rain.png" width="280px" height="210px"> -->
+                <!-- other tempPic images in folder: sun.png, cloud.png, ....and either "snow.png" or "snowman.png" for snow -->
+
+            </div>
+            <div class="col" id="colTwo">
+                <!-- Game code is embeded here -->
+                <!-- <embed id="game" src="gameOne.html"> -->
+
+            </div>
+            <div class="col" id="colThree">
+                <!-- <br>
+                <div id="allTimeScores">All Time Champions</div> -->
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id="allTimeScores">All
+                        Time Champions</li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user1">
+                        Eric
+                        <span class="badge badge-primary badge-pill" id="score1">14000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user2">
+                        Simon
+                        <span class="badge badge-primary badge-pill" id="score2">13000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user3">
+                        Alyssa
+                        <span class="badge badge-primary badge-pill" id="score3">12000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user4">
+                        Simon
+                        <span class="badge badge-primary badge-pill" id="score4">11000</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user5">
+                        Alyssa
+                        <span class="badge badge-primary badge-pill" id="score5">10000</span>
+                    </li>
+                </ul>
+                <br>
+                <!-- Your personal best scores -->
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" id="personalScores">My
+                        Top Scores</li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        8000
+                        <span class="badge badge-primary badge-pill"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        7200
+                        <span class="badge badge-primary badge-pill"></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        7005
+                        <span class="badge badge-primary badge-pill"></span>
+                    </li>
+                </ul>
+
+                <br>
+
+                <!-- Music player -->
+                <div class="container" id="audio">
+                    <!-- Youtube api (will not show video, only auido) -->
+                    <div onclick="player.pauseVideo()" id="player"></div>
+                    <!-- Play Backgroung music -->
+                    <button class="btn btn-success" type="button " value="mute " onclick="player.playVideo()" id="player">Play</button>
+                    <!-- Pause Background music -->
+                    <button class="btn btn-danger" type="button " value="mute " onclick="player.pauseVideo()" id="player">Pause</button>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" id="colFour"></div>
+            <div class="col" id="foot">Created by...Team Iceberg</div>
+            <div class="col" id="colFive"></div>
+        </div>
+        <div class="row">
+            <div class="col" id="finalLeft">Eric</div>
+            <div class="col" id="finalMid">Alyssa</div>
+            <div class="col" id="finalRight">Simon</div>
+        </div>
+
+    </div>
+
+    <!-- Adds a link to the JavaScript file. -->
+    <script src="assets/javascript/app.js"></script>
+
+    <!-- Add audio.js for game music -->
+    <script src="assets/javascript/audio.js"></script>
+
+</body>
+
+
+</html>
