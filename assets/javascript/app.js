@@ -41,7 +41,7 @@ $("#city-select").change(function () {
   console.log("City Name: " + cityPic);
 
   $("#cityName").html(cityPic);
-  $("body").css("background", "url('" + cityPic + ".png') center no-repeat");
+  $("body").css("background", "url('" + cityPic + ".png') no-repeat center fixed");
 
   getWeather(cityPic);
   getLocalTime(cityPic);
