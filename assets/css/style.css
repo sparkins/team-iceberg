@@ -1,13 +1,13 @@
 * {
     box-sizing: border-box;
-
+    font-family: "orbitron", sans-serif;
 }
 
 body {
     background: rgb(9, 59, 9);
 }
 
-/* <!-- topCol2 is the header area --> */
+/* main title area */
 #topCol2 {
     width: 60%;
     height: 80px;
@@ -15,7 +15,6 @@ body {
     text-align: center;
     color: lime;
     background: url("../images/transGrey.png");
-    /* fill-opacity: 30%; */
     border-top: rgb(162, 237, 247) ridge;
     border-bottom: rgb(162, 237, 247) ridge;
 }
@@ -41,7 +40,12 @@ body {
     border-right: rgb(162, 237, 247) ridge;
 }
 
-/* <!-- colOne is where we display options such as location and game --> */
+#cityName {
+    font-family: "yeon sung", sans-serif;
+    font-size: 60px;
+}
+
+/* display city and game options */
 #colOne {
     width: 20%;
     float: left;
@@ -55,18 +59,18 @@ body {
     margin-bottom: 20px;
 }
 
-/* <!-- colTwo is where the game will be displayed --> */
+/* display game */
 #colTwo {
     width: 574.8px;
     float: left;
     background: rgb(35, 94, 102);
     border-color: rgb(162, 237, 247);
     border-style: ridge;
-    height: 580x;
+    height: 534.8px;
     margin-top: 20px;
 }
 
-/* <!-- colThree is where the scores are displayed --> */
+/* display scores */
 #colThree {
     width: 20%;
     float: left;
@@ -87,7 +91,6 @@ body {
     color: white;
     border-left: rgb(162, 237, 247) ridge;
     border-top: rgb(162, 237, 247) ridge;
-    /* border-bottom: rgb(162, 237, 247) ridge; */
     height: 40px;
     background: url("../images/transGrey.png");
 }
@@ -99,7 +102,6 @@ body {
     color: lime;
     background: url("../images/transGrey.png");
     border-top: rgb(162, 237, 247) ridge;
-    /* border-bottom: rgb(162, 237, 247) ridge; */
     height: 40px;
 }
 
@@ -110,28 +112,20 @@ body {
     color: white;
     border-right: rgb(162, 237, 247) ridge;
     border-top: rgb(162, 237, 247) ridge;
-    /* border-bottom: rgb(162, 237, 247) ridge; */
     height: 40px;
     background: url("../images/transGrey.png");
 
 }
 
 #chooseGame {
-    /* margin-top: 100px; */
     align-content: center;
-    /* width: 200px; */
     height: 50px;
-    /* margin-left: 40px;
-            margin-right: 40px; */
 }
 
 #chooseCity {
     margin-top: 200px;
     align-content: center;
     width: 200px;
-    /* height: 50px; */
-    /* margin-left: 40px;
-            margin-right: 40px; */
 }
 
 #go {
@@ -221,5 +215,5 @@ font-family: orbitron;
 #myScore{
     font-style: inherit;
     color: green;
-    font-family: orbitron;  
+    font-family: "orbitron", sans-serif;  
 }
