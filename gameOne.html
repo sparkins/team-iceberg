@@ -14,8 +14,6 @@
 
 
     <style>
-
-
         #player {
             width: 60px;
             height: 60px;
@@ -94,7 +92,11 @@
             font-family: "orbitron", sans-serif;
             font-size: 20px;
             line-height: 30%;
+<<<<<<< HEAD
+        }
+=======
         } 
+>>>>>>> 3184a976afb94ffd8c0f465d0a86efdf2f299ae9
 
         #finalkills {
             font-family: "yeon sung";
@@ -116,8 +118,24 @@
             border-style: double;
             border-color: rgb(18, 95, 18);
             font-family: "orbitron", sans-serif;
-                }
+        }
 
+<<<<<<< HEAD
+        #start:hover {
+            background-color: rgb(18, 95, 18);
+            color: lime;
+            border-color: lime;
+            opacity: 20%;
+            font-family: "orbitron", sans-serif;
+        }
+
+        ;
+
+
+        /* <!-- practice code, maybe need to remove --> */
+        #restartGame {
+            width: 150px;
+=======
          #start:hover {
              background-color: rgb(18, 95, 18);
              color: lime;
@@ -127,6 +145,7 @@
          }   
 
         #restartGame {
+>>>>>>> 3184a976afb94ffd8c0f465d0a86efdf2f299ae9
             margin-top: 501px;
             width: 45px;
             height: 45px;
@@ -137,6 +156,38 @@
             border-color: rgb(33, 119, 33);
             font-family: "orbitron", sans-serif;
             visibility: hidden;
+<<<<<<< HEAD
+        }
+
+        ;
+
+        #name {
+            font-family: "orbitron", sans-serif;
+            color: rgb(30, 9, 54);
+            width: 100px;
+            margin-top: 10px;
+            /* display: none; */
+        }
+
+        #userName {
+            background-color: rgb(193, 248, 193);
+            color: blue;
+            font-family: "orbitron", sans-serif;
+            width: 380px;
+            margin-top: 10px;
+            border: rgb(30, 9, 54) 2px inset;
+            /* display: none; */
+        }
+
+        #nameValue {
+            background-color: blueviolet;
+            border: rgb(161, 240, 161) 1px ridge;
+            color: rgb(161, 240, 161);
+            width: 50px;
+            margin-top: 10px;
+            /* display: none; */
+        }
+=======
          }
 
          #restartGame:hover {
@@ -181,7 +232,14 @@
              display: none;
              margin-left: 10px;
          }
+>>>>>>> 3184a976afb94ffd8c0f465d0a86efdf2f299ae9
 
+        #submitUserName {
+            width: 500px;
+            /* visibility: hidden; */
+            display: none;
+
+        }
     </style>
 
 
@@ -208,15 +266,53 @@
 
 
     <button id="start" onclick="doStuff()">Play!</button>
+<<<<<<< HEAD
+    <button id="restartGame" onclick="restartGame();"><img height="15px" width="15px" src="refresh.png" alt="Do-Over"></button>
+    <div id="submitUserName"><label id="name">Name: <input type="text" id="userName"></label>
+        <input type="button" id="nameValue" value="OK"></div>
+
+
+
+=======
     <button id="restartGame" onclick="restartGame();"><img height="15px" width="15px" src="assets/images/refresh.png" alt="Start Over"></button>
 
     <div id="submitUserName"><label id="name">Who Are You ? <input type="text" id="userName"></label>
     <input type="button" id="nameValue" value="OK"></div>
     
+>>>>>>> 3184a976afb94ffd8c0f465d0a86efdf2f299ae9
+
+    <!-- In game sound effects -->
+
+    <div class="keys">
+        <div data-key="32" class="key">
+            <span class="sound"></span>
+        </div>
+        <audio data-key="32" src="assets/sounds/Laser.mp3"></audio>
+    </div>
 
 
+    <!-- audio javascript -->
+    <script>
 
+        window.addEventListener('keydown', function (e) {
+            var audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            var key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            if (!audio) return; // stop function from running all together 
+            audio.currentTime = 0;
+            audio.play();
+            key.classList.add('playing');
+            console.log(keyCode);
+        });
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return;
 
+            this.classList.remove('playing');
+        }
+        var keys = document.querySelectorAll('.key');
+        keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+    </script>
+    <!-- Gameplay Javascript -->
 
     <script type="text/javascript">
 
@@ -360,7 +456,12 @@
 
         function playerLoss() {
             var element = document.getElementById(player.element);
+<<<<<<< HEAD
+            element.style.visibility = "hidden";
+            // NEED TO REMOVE PLAYER RATHER THAN JUST HIDING HIM, BECAUSE IT CAUSES CONTINUOUS PLAYERLOSS() TO BE CALLED...
+=======
             element.parentNode.removeChild(element);
+>>>>>>> 3184a976afb94ffd8c0f465d0a86efdf2f299ae9
             element = document.getElementById("playerLoss");
             element.style.display = "visible";
             var element = document.getElementById("submitUserName");
@@ -474,6 +575,30 @@
 
 
         (function () {
+<<<<<<< HEAD
+            // Use an input to show the current value and let
+            // the user set a new one
+
+            var input = document.getElementById("userName");
+
+            // Reading the value, which was store as "theValue"
+            if (localStorage && 'userName' in localStorage) {
+                input.value = localStorage.userName;
+            }
+
+            document.getElementById("nameValue").onclick = function () {
+                // Writing the value
+                localStorage && (localStorage.userName = input.value);
+                console.log(input.value + ", " + saveScore + " Game0");
+                // STILL NEED CODE TO SAVE THE SCORE WITH THE NAME
+            };
+        })();
+
+
+
+        // <!-- 
+        // document.getElementById("restartGame").on("click", function(){ -->
+=======
             var input = document.getElementById("userName");
             // Reads input for user's name and stores value
             if (localStorage && "userName" in localStorage) {
@@ -491,11 +616,16 @@
         })();
 
         //restarts game by refreshing page
+>>>>>>> 3184a976afb94ffd8c0f465d0a86efdf2f299ae9
         function restartGame() {
             location.reload();
             loop();
         };
+<<<<<<< HEAD
+// })
+=======
 
+>>>>>>> 3184a976afb94ffd8c0f465d0a86efdf2f299ae9
 
 
     </script>
