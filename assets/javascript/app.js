@@ -14,13 +14,15 @@ firebase.initializeApp(config);
 //Global Variables
 var database = firebase.database();
 var temp = 0;
-var tempPic = ("sun");  //pics available for Sun, rain, cloud, snow
+var tempPic = ("assets/images/sun.png");  //pics available for Sun, rain, cloud, snow
 var cityPic = "San Francisco";
 var hour = 0;
 var myGameZeroScores = [];
 var myGameOneScores = [];
 var weather = "";
 var gameIndex = 0;
+var dayNight = "";
+var picType = "";
 
 //An array of players and scores for test purposes.  These will be replaced by real scores as they complete the game.  Save results as a player object (Username, Score and Game#)
 var players = [
@@ -28,52 +30,49 @@ var players = [
   // { userName: "Eric", score: 2345, game: 1 },
   // { userName: "Simon", score: 1212, game: 1 },
   // { userName: "Alyssa", score: 7234, game: 1 },
-  // { userName: "Eric", score: 5345, game: 1 },
-  // { userName: "Simon", score: 6212, game: 1 },
-  // { userName: "Alyssa", score: 5234, game: 0 },
-  // { userName: "Eric", score: 4345, game: 0 },
-  // { userName: "Simon", score: 3122, game: 0 }
 ]
-
-// console.log(players.userName);
-// console.log(players.score);
-
-// var newScore = { userName: "Manny", score: 2121 };
-// players.push(newScore);
 
 $("#city-select").change(function () {
   cityPic = $("#city-select").val();
   console.log("City Name: " + cityPic);
+  chooseBackground ();
 
-  if (hour<18){
-    dayNight = "day";
-  }
-  else {
-    dayNight = "night";
+  function chooseBackground(hour) {
+
+    getWeather(cityPic);
+    getLocalTime(cityPic);
+
+    if (hour < 18) {
+      dayNight = "day";
+    }
+    else {
+      dayNight = "night";
+    }
+
+    if (weather === "Cloud" || weather === "Haze" || weather === "Clear") {
+      picType = "_clear.png";
+    }
+
+    else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
+      picType = "_rain.png";
+    }
+    else if (weather === "Snow") {
+      picType = "_snow.png"
+    }
+    else {
+      picType = "_clear.png"
+    }
   }
 
-  if (weather === "Cloud" || weather === "Haze" || weather === "Clear") {
-    picType = "_clear.png";
-  }
-  
-  else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
-    picType = "_rain.png";
-  }
-  else if (weather === "Snow") {
-    picType = "_snow.png"
-  }
-  else {
-    picType = "_clear.png"
-  }
+  console.log ("City Chosen: "+cityPic);
+  console.log ("dayNight: "+dayNight);
+  console.log ("Weather Pic: "+picType);
 
   $("#cityName").html(cityPic);
   $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') no-repeat center center fixed");
   $("body").css("-webkit-background-size", "cover", "-moz-background-size", "cover", "-o-background-size", "cover", "background-size", "cover");
-  
-  getWeather(cityPic);
-  getLocalTime(cityPic);
-});
 
+});
 
 $("#game-select").change(function () {
   var gamePic = $("#game-select").val();
@@ -112,45 +111,45 @@ function addNewScore(playerObject) {
 function retrieveAllTimeHighScores(gameIndex) {
   var highestScores = firebase.database().ref('players');
   highestScores.orderByChild("score").once('value', function (data) {
-    console.log("GameIndex: "+gameIndex);
+    console.log("GameIndex: " + gameIndex);
     console.log(typeof gameIndex);
-    console.log (data.val());
-    var selectedGame = _.filter(data.val(), function(element){
-      return element.game === gameIndex;  
+    console.log(data.val());
+    var selectedGame = _.filter(data.val(), function (element) {
+      return element.game === gameIndex;
     });
-    var sortedByScore = _.sortBy(selectedGame, function(element){
-      return element.score; 
+    var sortedByScore = _.sortBy(selectedGame, function (element) {
+      return element.score;
     }).reverse();
 
     var i = 1;
-    _.each(_.first(sortedByScore, 5), function(player){
+    _.each(_.first(sortedByScore, 5), function (player) {
       console.log(player);
-      $("#user"+i).html('<li <span id="playerName"> ' +player.userName+'</span> <span id="playerScore">'+player.score+ '</span></li>');
+      $("#user" + i).html('<li <span id="playerName"> ' + player.userName + '</span> <span id="playerScore">' + player.score + '</span></li>');
       i++
     })
-    });
+  });
 }
 
 function retrievePersonalHighScores(userName, gameIndex) {
   var personalTopScores = firebase.database().ref('players');
   personalTopScores.orderByChild("userName").equalTo(userName).once('value', function (data) {
-    console.log("GameIndex: "+gameIndex);
-    console.log (data.val());
-    var selectedGame = _.filter(data.val(), function(element){
-      return element.game === gameIndex;  
+    console.log("GameIndex: " + gameIndex);
+    console.log(data.val());
+    var selectedGame = _.filter(data.val(), function (element) {
+      return element.game === gameIndex;
     });
-    var sortedByScore = _.sortBy(selectedGame, function(element){
-      return element.score; 
+    var sortedByScore = _.sortBy(selectedGame, function (element) {
+      return element.score;
     }).reverse();
-    
+
     var i = 1;
-    _.each(_.first(sortedByScore, 3), function(player){
+    _.each(_.first(sortedByScore, 3), function (player) {
       // console.log("RetrievePersonalHS: ",player);
-        $("#myScore"+i).html('<li id="myScore">'+player.score+ '</li>');
-        i++
+      $("#myScore" + i).html('<li id="myScore">' + player.score + '</li>');
+      i++
     });
-        // console.log("Personal Top Scores: ",sortedByScore);
-    
+    // console.log("Personal Top Scores: ",sortedByScore);
+
   });
 }
 
@@ -170,9 +169,9 @@ function getLocalTime(cityPic) {
     var month = response[0].month;
     var year = response[0].year;
     var day = response[0].day;
-    var hour = response[0].hour;
+    hour = response[0].hour;
     var minute = response[0].minute;
-    if (minute<10) {minute=parseInt("0"+response[0].minute)}
+    if (minute < 10) { minute = parseInt("0" + response[0].minute) }
     var localTime = hour + ":" + minute;
     var localDate = month + "/" + day + "/" + year;
 
