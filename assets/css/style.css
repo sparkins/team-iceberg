@@ -1,13 +1,14 @@
 * {
     box-sizing: border-box;
-    font-family: "orbitron", sans-serif;
+
 }
 
 body {
     background: rgb(9, 59, 9);
+    font-family: "orbitron", sans-serif;
 }
 
-/* main title area */
+/*  Main title */
 #topCol2 {
     width: 60%;
     height: 80px;
@@ -19,6 +20,7 @@ body {
     border-bottom: rgb(162, 237, 247) ridge;
 }
 
+/* Displays local time and city chosen */
 #topCol1,
 #topCol3 {
     width: 20%;
@@ -29,7 +31,11 @@ body {
     background: url("../images/transGrey.png");
     border-top: rgb(162, 237, 247) ridge;
     border-bottom: rgb(162, 237, 247) ridge;
+}
+
+#cityName {
     font-family: "yeon sung", sans-serif;
+    font-size: 60px;
 }
 
 #topCol1 {
@@ -40,12 +46,7 @@ body {
     border-right: rgb(162, 237, 247) ridge;
 }
 
-#cityName {
-    font-family: "yeon sung", sans-serif;
-    font-size: 60px;
-}
-
-/* display city and game options */
+/* Display user options for game and location */
 #colOne {
     width: 20%;
     float: left;
@@ -59,18 +60,18 @@ body {
     margin-bottom: 20px;
 }
 
-/* display game */
+/* Display game */
 #colTwo {
     width: 574.8px;
     float: left;
     background: rgb(35, 94, 102);
     border-color: rgb(162, 237, 247);
     border-style: ridge;
-    height: 534.8px;
+    height: 580x;
     margin-top: 20px;
 }
 
-/* display scores */
+/* Display scores */
 #colThree {
     width: 20%;
     float: left;
@@ -92,7 +93,6 @@ body {
     border-left: rgb(162, 237, 247) ridge;
     border-top: rgb(162, 237, 247) ridge;
     height: 40px;
-    background: url("../images/transGrey.png");
 }
 
 #foot {
@@ -128,13 +128,15 @@ body {
     width: 200px;
 }
 
-#go {
-    margin-top: 100px;
-    align-content: center;
-    width: 200px;
-    height: 50px;
-    margin-left: 40px;
-    margin-right: 40px;
+
+#allTimeScores {
+    background-color: rgb(204, 243, 206);
+    color: rgb(28, 83, 28);
+}
+
+#personalScores {
+    background-color: rgb(204, 243, 206);
+    color: rgb(28, 83, 28);
 }
 
 #list-group-item {
@@ -186,34 +188,3 @@ h1 {
     border-right: rgb(162, 237, 247) ridge;
 }
 
-#playerName{
-font-style: inherit;
-color: green;
-font-family: orbitron;
-}
-
-#playerScore{
-    margin-left: 75px;
-    border-radius: 50%;
-    border-width: 1px;
-    border-color: blue;
-    color: white;
-    background-color: royalblue;
-    padding: 10px;
-    font-style: inherit; 
-    font-family: orbitron;
-}
-
-#topScoresHeader {
-    background-color: rgb(204, 243, 206);
-    color: rgb(28, 83, 28);
-    font-style: inherit; 
-    font-family: orbitron;
-    font-weight: bold;
-}
-
-#myScore{
-    font-style: inherit;
-    color: green;
-    font-family: "orbitron", sans-serif;  
-}
