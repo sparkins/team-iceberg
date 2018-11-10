@@ -46,6 +46,7 @@ body {
     border-right: rgb(162, 237, 247) ridge;
 }
 
+
 /* Display user options for game and location */
 #colOne {
     width: 20%;
@@ -155,6 +156,9 @@ h1 {
 
 #temp {
     font-size: 40px;
+    color: rgb(235, 211, 78);
+    color: rgb(250, 233, 140);
+    
 }
 
 #finalLeft,
@@ -209,4 +213,24 @@ h1 {
         font-style: inherit;
         color: green;
         font-family: "orbitron", sans-serif;  
+}
+
+#star {
+    width: 20px;
+    height: 20px;
+}
+
+#personalScores {
+    background: rgb(152, 228, 152);
+    border: 1px grey inset;
+}
+#allTimeScores {
+    background: rgb(152, 228, 152);
+    border: 1px grey inset;
+}
+#myScores {
+    border: 2px grey inset;
+}
+#highestScores {
+    border: 2px grey inset;
 }
