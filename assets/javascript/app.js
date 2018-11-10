@@ -71,8 +71,6 @@ $("#city-select").change(function () {
   // console.log("dayNight: " + dayNight);
   // console.log("Weather Pic: " + picType);
 
-  console.log ("cityPic LOwerCase: "+cityPic);
-
   //Display the background image for the selected city 
   $("#cityName").html(cityPic);
   $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') no-repeat center center fixed");
