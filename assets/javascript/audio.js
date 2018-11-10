@@ -5,6 +5,7 @@ window.addEventListener('keydown', function (e) {
   if(!audio)return; // stop function from running all together 
   audio.currentTime = 0;
   audio.play();
+  // audio.volume = 0.2;
   key.classList.add('playing');
   console.log(keyCode);
 });
