@@ -35,7 +35,7 @@ var players = [
 $("#city-select").change(function () {
   cityPic = $("#city-select").val();
   console.log("City Name: " + cityPic);
-  chooseBackground ();
+  chooseBackground();
 
   function chooseBackground(hour) {
 
@@ -64,9 +64,9 @@ $("#city-select").change(function () {
     }
   }
 
-  console.log ("City Chosen: "+cityPic);
-  console.log ("dayNight: "+dayNight);
-  console.log ("Weather Pic: "+picType);
+  console.log("City Chosen: " + cityPic);
+  console.log("dayNight: " + dayNight);
+  console.log("Weather Pic: " + picType);
 
   $("#cityName").html(cityPic);
   $("body").css("background", "url('assets/images/" + cityPic + "/" + cityPic + "_" + dayNight + picType + "') no-repeat center center fixed");
