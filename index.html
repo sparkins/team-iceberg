@@ -38,11 +38,11 @@
     <!-- Container for the game control panel -->
     <div class="container">
         <div class="row">
-            <div class="col" id="topCol1"><span id="localDate">Current Date and</span>
-                <h3 id="localTime">[Time]</h3>
+            <div class="col" id="topCol1"><span id="localDate"><img src="assets/images/earth.gif"> </span>
+                <h3 id="localTime"></h3>
             </div>
-            <div class="col" id="topCol2">
-                <h1>Nomadic Match</h1>
+            <div class="col" id="topCol2" >
+                <h1 style="padding: 20px">Nomadic Match</h1>
             </div>
             <div class="col" id="topCol3">Welcome To<h3 id="cityName"></h3>
             </div>
@@ -53,19 +53,17 @@
 
                 <form>
 
-                    <!-- The forms in colOne (where we ask the user which game and which city they want to play) should be the same style, 
-                        I left both models here because idk which one you guys think looks better. The 1st form is a dropdown menu and 
-                        the 2nd form is a list. If we use this layout, lets copy /paste the one you like 2x and delete the ither one -->
+                    <!-- select game -->
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Choose Your Game</label>
                         <select class="form-control" id="game-select">
                             <option id="gamePick">Pick A Game...</option>
                             <option id="shoot">Space Defender</option>
                             <option id="helicopter">Fly High</option>
-                            <!-- <option id="unknown">Game 3: maybe..??</option> -->
                         </select>
                     </div>
-                    <!-- <button type="submit" class="btn btn-primary">Go</button> -->
+
+                    <!-- select location -->
                     <div class="form-group">
                         <label for="exampleFormControlSelect1">Choose Your City</label>
                         <select class="form-control" id="city-select">
@@ -85,13 +83,13 @@
                 <!-- display the local temp and a weather icon image -->
                 <div id="temp">72°F</div>
                 <div id="tempPic"></div>
-                <!-- <img inside "tempPic" width="280px" height="210px"> -->
-                <!-- src options = sun.png, cloud.png, rain.png, snow.png -->
+               
+                <!-- weather img options = sun.png, cloud.png, rain.png, snow.png -->
 
             </div>
             <div class="col" id="colTwo">
                 <!-- Game code is embeded here -->
-                <!-- <embed id="game1" src="gameOne.html"> -->
+               
 
             </div>
             <div class="col" id="colThree">
@@ -100,25 +98,24 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center" id="allTimeScores">All
                         Time Champions</li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user1">
-                        Eric
-                        <div class="badge badge-primary badge-pill" id="score1">14000</div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list highestScores" id="user1">
+                        <div class="badge badge-primary badge-pill" id="score1"></div>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user2">
-                        Simon
-                        <div class="badge badge-primary badge-pill" id="score2">13000</div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list highestScores" id="user2">
+                        
+                        <div class="badge badge-primary badge-pill" id="score2"></div>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user3">
-                        Alyssa
-                        <div class="badge badge-primary badge-pill" id="score3">12000</div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list highestScores" id="user3">
+                        
+                        <div class="badge badge-primary badge-pill" id="score3"></div>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user4">
-                        Simon
-                        <div class="badge badge-primary badge-pill" id="score4">11000</div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list highestScores" id="user4">
+                        
+                        <div class="badge badge-primary badge-pill" id="score4"></div>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center user-list" id="user5">
-                        Alyssa
-                        <div class="badge badge-primary badge-pill" id="score5">10000</div>
+                    <li class="list-group-item d-flex justify-content-between align-items-center user-list highestScores" id="user5">
+                        
+                        <div class="badge badge-primary badge-pill" id="score5"></div>
                     </li>
                 </ul>
                 <br>
@@ -126,21 +123,21 @@
                 <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center" id="personalScores">My
                         Top Scores</li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        8000
+                    <li class="list-group-item d-flex justify-content-between align-items-center myScores">
+                        
                         <div class="badge badge-primary badge-pill"></div>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        7200
+                    <li class="list-group-item d-flex justify-content-between align-items-center myScores">
+                        
                         <div class="badge badge-primary badge-pill"></div>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        7005
+                    <li class="list-group-item d-flex justify-content-between align-items-center myScores">
+                        
                         <div class="badge badge-primary badge-pill"></div>
                     </li>
                 </ul>
 
-                <h1 style="padding-left: 20px ;color: green;">Music:</h1>
+                <h1 style="padding: 20px ;color: green;">Audio:</h1>
                 <br>
                 <div class="container" id="audio">
                     <!-- Youtube api (will not show video, only auido) -->
@@ -149,6 +146,14 @@
                     <button controls class="btn btn-success" type="button" onclick="player.playVideo()" id="player" width="">Play</button>
                     <!-- Pause Background music -->
                     <button class="btn btn-danger" type="button " onclick="player.pauseVideo()" id="player">Pause</button>
+                   
+                    <div id="cityIcon">
+                        <!-- Possible images for bottom right, under scores and music controls -->
+                        <!-- <img src="assets/images/kundalini.gif" height="190px"> -->
+                        <!-- <img src="assets/images/hand.gif" height="90px"> -->
+                         <!-- <img src="assets/images/rainbow.gif" height="200px"> -->
+                         <img src="assets/images/music.gif" id="music-image" style="margin-left: 20px" width="100px">
+                    </div>
                 </div>
 
 
