@@ -35,21 +35,20 @@ var players = [
 //When you choose your city it updates the background image, gets the local time and weather via APIs
 $("#city-select").change(function () {
   cityPic = $("#city-select").val();
-  console.log("City Name: " + cityPic);
+  // console.log("City Name: " + cityPic);
   chooseBackground();
 
-// Function to determine background image
   function chooseBackground(hour) {
 
     getWeather(cityPic);
     getLocalTime(cityPic);
 
-    //determines whether to show a day or night picture, based on the current time
-    if (hour < 6 || hour > 18) {
-      dayNight = "night";
+    //This code determines whether to show a day or night picture, based on the time of the day
+    if (hour < 18) {
+      dayNight = "day";
     }
     else {
-      dayNight = "day";
+      dayNight = "night";
     }
 
     //This code determines whether to show a clear picture, rainy or another weather picture
@@ -67,11 +66,10 @@ $("#city-select").change(function () {
       picType = "_clear.png"
     }
   }
+
   // console.log("City Chosen: " + cityPic);
   // console.log("dayNight: " + dayNight);
   // console.log("Weather Pic: " + picType);
-
-  console.log ("cityPic LOwerCase: "+cityPic);
 
   //Display the background image for the selected city 
   $("#cityName").html(cityPic);
@@ -80,10 +78,10 @@ $("#city-select").change(function () {
 
 });
 
-// Code to determine which game was selected, and update the leaderboards (scores) appropriately
+// Code to determine which game was selected to play, and updates teh leaderboards appropriately
 $("#game-select").change(function () {
   var gamePic = $("#game-select").val();
-  console.log("game= " + gamePic);
+  // console.log("game= " + gamePic);
   var gameChosen = [];
   if (gamePic === ("Space Defender")) {
     $("#colTwo").html("<embed id='game1' src='gameOne.html'>");
@@ -99,7 +97,7 @@ $("#game-select").change(function () {
   }
 })
 
-//Function to add the player's username, score and game played to firebase
+//Function to add the players username, score and game played to firebase
 function addNewScore(playerObject) {
   var database = firebase.database().ref();
   var playersRef = database.child('players');
@@ -118,9 +116,9 @@ function addNewScore(playerObject) {
 function retrieveAllTimeHighScores(gameIndex) {
   var highestScores = firebase.database().ref('players');
   highestScores.orderByChild("score").once('value', function (data) {
-    console.log("GameIndex: " + gameIndex);
-    console.log(typeof gameIndex);
-    console.log(data.val());
+    // console.log("GameIndex: " + gameIndex);
+    // console.log(typeof gameIndex);
+    // console.log(data.val());
 
     //filter the list of score by gameindex
     var selectedGame = _.filter(data.val(), function (element) {
@@ -131,34 +129,22 @@ function retrieveAllTimeHighScores(gameIndex) {
       return element.score;
     }).reverse();
 
-   //write top 5 scores to the leaderboard and display them in UI
-   var i = 1;
-  _.each(_.first(sortedByScore, 5), function (player) {
-    console.log(player);
-    $("#user" + i).html('<li <span id="playerName"> ' + player.userName + '</span> <span id="playerScore">' + player.score + '</span></li>');
-    i++
-  });
-
- //for the 3 highest scores, style unique css and add gold star img to #1 score
-     _.each(_.first(sortedByScore, 1), function (player) {
+    //Code to take the top 5 scores and write them to the leaderboard
+    var i = 1;
+    _.each(_.first(sortedByScore, 5), function (player) {
       console.log(player);
-      $("#user1").html('<li <span id="playerName"> ' + player.userName + '</span> <img id="star" src="assets/images/goldstar.png" width="50px" height="50px"><span id="playerScore">' + player.score + '</span></li>');
+      $("#user" + i).html('<li <span id="playerName"> ' + player.userName + '</span> <span id="playerScore">' + player.score + '</span></li>');
       i++
     })
-    $("#user1").css("background", "gold");
-    $("#user1").css("border", "2px rgb(92, 80, 12) double")
-    $("#user2").css("background", "rgb(235, 211, 78)");
-    $("#user3").css("background", "rgb(250, 233, 140)");
   });
-
 }
 
 // Function to grab the current users top 3 scores for the chosen game
 function retrievePersonalHighScores(userName, gameIndex) {
   var personalTopScores = firebase.database().ref('players');
   personalTopScores.orderByChild("userName").equalTo(userName).once('value', function (data) {
-    console.log("GameIndex: " + gameIndex);
-    console.log(data.val());
+    // console.log("GameIndex: " + gameIndex);
+    // console.log(data.val());
     // takes a list of scores filtered by the current user and the game selected
     var selectedGame = _.filter(data.val(), function (element) {
       return element.game === gameIndex;
@@ -168,21 +154,21 @@ function retrievePersonalHighScores(userName, gameIndex) {
       return element.score;
     }).reverse();
 
-    // takes the sorted list, grabs top 3 scores, writes them to appropriate html div for personal scores
+    // takes the sorted list, grabs teh top 3 and writes them to the board for the users top scores
     var i = 1;
     _.each(_.first(sortedByScore, 3), function (player) {
       // console.log("RetrievePersonalHS: ",player);
-      $("#myScore" + i).html('<li id="myScore">' + player.score + '<img src="assets/images/best.png" width="30px" height="30px"></li>');
+      $("#myScore" + i).html('<li id="myScore">' + player.score + '</li>');
       i++
     });
-    // console.log("Personal Top Scores: ",sortedByScore);
+    console.log("Personal Top Scores: ",sortedByScore);
   });
 }
 
-//Function that takes the chosen city and adds it to the API query to return the local time 
+//Function that takes the chosen city and adds it to the API query to return the loacl time 
 function getLocalTime(cityPic) {
   queryURL = "https://api.okapi.online/datetime/lookup/time?timezone.addressLocality=" + cityPic + "&access_token=ngqrmaeNLzmwbFroz2aIWeeV";
-  console.log("display-url: " + queryURL);
+  // console.log("display-url: " + queryURL);
 
   // AJAX GET call for the specific timezone data requested
   $.ajax({
@@ -193,7 +179,7 @@ function getLocalTime(cityPic) {
     // console.log(response);
     // console.log(response[0].hour);
 
-    //Grabs the month, day, year, hour and minute from the response
+    //Grabs the month, day, year, hours and minutes from the response
     var month = response[0].month;
     var year = response[0].year;
     var day = response[0].day;
@@ -242,10 +228,10 @@ function getWeather(cityPic) {
     //Display the temperature in the UI
     $("#temp").text(temp + "°F");
 
-    //Invoke ChooseTempPic function to find current weather
+    //Invoke the ChooseTempPic for teh current weather
     chooseTempPic(weather);
 
-    //Function to display an icon for the weather: either sun, cloud, snow or rain
+    //Function to display a weather image, based on teh current local weather
     function chooseTempPic(weather) {
       if (weather === "Cloud" || weather === "Haze") {
         tempPic = "assets/images/cloud.png";
@@ -256,14 +242,8 @@ function getWeather(cityPic) {
       else if (weather === "Rain" || weather === "Mist" || weather === "Drizzle") {
         tempPic = "assets/images/rain.png";
       }
-      else if (weather === "Snow") {
-        tempPic = "assets/images/snow.png"
-      }
-      else {
-        tempPic = "assets/images/sun.png"
-      }
 
-      // Add a weather icon image to the UI
+      // Add a weather image to the UI
       // console.log("tempPic: " + tempPic);
       $("#tempPic").html("<img src='" + tempPic + "' width='280px' height='210px'>");
     }
